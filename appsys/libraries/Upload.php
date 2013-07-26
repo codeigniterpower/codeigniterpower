@@ -29,8 +29,8 @@ class CI_Upload {
 	public $max_size				= 0;
 	public $max_width				= 0;
 	public $max_height				= 0;
-	public $max_filename			= 0;
-	public $allowed_types			= "";
+	public $max_filename				= 0;
+	public $allowed_types				= "";
 	public $file_temp				= "";
 	public $file_name				= "";
 	public $orig_name				= "";
@@ -39,18 +39,19 @@ class CI_Upload {
 	public $file_ext				= "";
 	public $upload_path				= "";
 	public $overwrite				= FALSE;
-	public $encrypt_name			= FALSE;
+	public $encrypt_name				= FALSE;
 	public $is_image				= FALSE;
 	public $image_width				= '';
-	public $image_height			= '';
+	public $image_height				= '';
 	public $image_type				= '';
-	public $image_size_str			= '';
+	public $image_size_str				= '';
 	public $error_msg				= array();
 	public $mimes					= array();
-	public $remove_spaces			= TRUE;
+	public $remove_spaces				= TRUE;
 	public $xss_clean				= FALSE;
 	public $temp_prefix				= "temp_file_";
 	public $client_name				= '';
+	public $convert_dots				= TRUE;
 
 	protected $_file_name_override	= '';
 
@@ -104,7 +105,8 @@ class CI_Upload {
 							'remove_spaces'		=> TRUE,
 							'xss_clean'			=> FALSE,
 							'temp_prefix'		=> "temp_file_",
-							'client_name'		=> ''
+							'client_name'		=> '',
+							'convert_dots'		=> TRUE
 						);
 
 
@@ -983,7 +985,7 @@ class CI_Upload {
 	 */
 	protected function _prep_filename($filename)
 	{
-		if (strpos($filename, '.') === FALSE OR $this->allowed_types == '*')
+		if (strpos($filename, '.') === FALSE AND $this->allowed_types != '*')
 		{
 			return $filename;
 		}
@@ -992,15 +994,15 @@ class CI_Upload {
 		$ext		= array_pop($parts);
 		$filename	= array_shift($parts);
 
-		foreach ($parts as $part)
+		if ( strcasecmp($ext,  $this->allowed_types) == 0 OR $this->allowed_types == '*' )
 		{
-			if ( ! in_array(strtolower($part), $this->allowed_types) OR $this->mimes_types(strtolower($part)) === FALSE)
+			if ($this->convert_dots === TRUE) 
 			{
-				$filename .= '.'.$part.'_';
+				$filename = implode('_', $parts); 
 			}
 			else
 			{
-				$filename .= '.'.$part;
+				$filename = implode('.', $parts);
 			}
 		}
 
