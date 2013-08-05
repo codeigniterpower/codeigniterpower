@@ -83,6 +83,11 @@ function NewCal(pCtrl,pFormat,pShowTime,pTimeMode)
 			strMonth=exDateTime.substring(Sp1+1,Sp2);
 			strDate=exDateTime.substring(0,Sp1);
 		}
+		else if ( Cal.Format.toUpperCase()=="YYYYMMDD" ) // TODO ?¿? work?
+		{
+			strMonth=exDateTime.substring(Sp1+1,Sp2);
+			strDate=exDateTime.substring(0,Sp1);
+		}
 		else if ((Cal.Format.toUpperCase()=="MMDDYYYY") || (Cal.Format.toUpperCase()=="MMMDDYYYY"))
 		{
 			strMonth=exDateTime.substring(0,Sp1);
@@ -292,7 +297,7 @@ function Calendar(pDate,pCtrl)
 
 	this.MyWindow=winCal;
 	this.Ctrl=pCtrl;
-	this.Format="ddMMyyyy";
+	this.Format="yyyyMMdd";
 	this.Separator=DateSeparator;
 	this.ShowTime=false;
 	if (pDate.getHours()<12)
@@ -473,6 +478,8 @@ function FormatDate(pDate)
 {
 	if (this.Format.toUpperCase()=="DDMMYYYY")
 		return (pDate+DateSeparator+(this.Month+1)+DateSeparator+this.Year);
+	else if (this.Format.toUpperCase()=="YYYYMMDD")
+		return (this.Year+DateSeparator+(this.Month+1)+DateSeparator+pDate);
 	else if (this.Format.toUpperCase()=="DDMMMYYYY")
 		return (pDate+DateSeparator+this.GetMonthName(false)+DateSeparator+this.Year);
 	else if (this.Format.toUpperCase()=="MMDDYYYY")
