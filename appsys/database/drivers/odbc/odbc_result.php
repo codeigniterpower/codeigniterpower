@@ -34,7 +34,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 */
 	function num_rows()
 	{
-		return @odbc_num_rows($this->result_id);
+		return abs(@odbc_num_rows($this->result_id));
 	}
 
 	// --------------------------------------------------------------------
