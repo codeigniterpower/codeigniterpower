@@ -198,7 +198,7 @@ class CI_DB_utility extends CI_DB_forge {
 	 * @param	string	The enclosure - double quote by default
 	 * @return	string
 	 */
-	function csv_from_result($query, $delim = ",", $newline = "\n", $enclosure = '"')
+	function csv_from_result($query, $delim = ",", $newline = "\n", $enclosure = '"', $header = TRUE)
 	{
 		if ( ! is_object($query) OR ! method_exists($query, 'list_fields'))
 		{
@@ -208,22 +208,29 @@ class CI_DB_utility extends CI_DB_forge {
 		$out = '';
 
 		// First generate the headings from the table column names
-		foreach ($query->list_fields() as $name)
+		if ($header )
 		{
-			$out .= $enclosure.str_replace($enclosure, $enclosure.$enclosure, $name).$enclosure.$delim;
-		}
+			foreach ($query->list_fields() as $name)
+			{
+				$out .= $enclosure.str_replace($enclosure, $enclosure.$enclosure, $name).$enclosure.$delim;
+			}
 
-		$out = rtrim($out);
-		$out .= $newline;
+			$out = rtrim($out);
+			$out = rtrim($out,$delim);
+			$out .= $newline;
+		}
 
 		// Next blast through the result array and build out the rows
 		foreach ($query->result_array() as $row)
 		{
 			foreach ($row as $item)
 			{
+				if (rtrim($item) == '')
+					$item=rtrim($item);
 				$out .= $enclosure.str_replace($enclosure, $enclosure.$enclosure, $item).$enclosure.$delim;
 			}
 			$out = rtrim($out);
+			$out = rtrim($out,$delim);
 			$out .= $newline;
 		}
 

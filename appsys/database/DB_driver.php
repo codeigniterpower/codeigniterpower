@@ -447,9 +447,9 @@ class CI_DB_driver {
 	{
 		if ( ! $this->conn_id)
 		{
-			$this->initialize();
+			$this->initialize();  // hack piccoro para asegurqar DB seleccionada
 		}
-
+		$this->db_select();
 		return $this->_execute($sql);
 	}
 
