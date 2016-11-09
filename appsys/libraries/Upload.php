@@ -133,6 +133,7 @@ class CI_Upload {
 		// if a file_name was provided in the config, use it instead of the user input
 		// supplied file name for all uploads until initialized again
 		$this->_file_name_override = $this->file_name;
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -140,6 +141,7 @@ class CI_Upload {
 	/**
 	 * Perform the file upload
 	 *
+	 * @param	string	$field
 	 * @return	bool
 	 */
 	public function do_upload($field = 'userfile')
@@ -213,7 +215,7 @@ class CI_Upload {
 		}
 
 		// if we're overriding, let's now make sure the new name and type is allowed
-		if ($this->_file_name_override != '')
+		if ($this->_file_name_override !== '')
 		{
 			$this->file_name = $this->_prep_filename($this->_file_name_override);
 
@@ -349,7 +351,7 @@ class CI_Upload {
 						'file_type'			=> $this->file_type,
 						'file_path'			=> $this->upload_path,
 						'full_path'			=> $this->upload_path.$this->file_name,
-						'raw_name'			=> str_replace($this->file_ext, '', $this->file_name),
+						'raw_name'			=> substr($this->file_name, 0, -strlen($this->file_ext)),
 						'orig_name'			=> $this->orig_name,
 						'client_name'		=> $this->client_name,
 						'file_ext'			=> $this->file_ext,
@@ -385,8 +387,8 @@ class CI_Upload {
 	 * existence of a file with the same name. If found, it will append a
 	 * number to the end of the filename to avoid overwriting a pre-existing file.
 	 *
-	 * @param	string
-	 * @param	string
+	 * @param	string	$path
+	 * @param	string	$filename
 	 * @return	string
 	 */
 	public function set_filename($path, $filename)
@@ -397,7 +399,7 @@ class CI_Upload {
 			$filename = md5(uniqid(mt_rand())).$this->file_ext;
 		}
 
-		if ( ! file_exists($path.$filename))
+		if ($this->overwrite === TRUE OR ! file_exists($path.$filename))
 		{
 			return $filename;
 		}
@@ -405,7 +407,7 @@ class CI_Upload {
 		$filename = str_replace($this->file_ext, '', $filename);
 
 		$new_filename = '';
-		for ($i = 1; $i < 100; $i++)
+		for ($i = 1; $i < 500; $i++)
 		{
 			if ( ! file_exists($path.$filename.$i.$this->file_ext))
 			{
@@ -581,6 +583,7 @@ class CI_Upload {
 	/**
 	 * Verify that the filetype is allowed
 	 *
+	 * @param	bool	$ignore_mime
 	 * @return	bool
 	 */
 	public function is_allowed_filetype($ignore_mime = FALSE)
@@ -791,7 +794,8 @@ class CI_Upload {
 	/**
 	 * Limit the File Name Length
 	 *
-	 * @param	string
+	 * @param	string	$filename
+	 * @param	int	$length
 	 * @return	string
 	 */
 	public function limit_filename_length($filename, $length)
@@ -980,32 +984,21 @@ class CI_Upload {
 	 * Prevents possible script execution from Apache's handling of files multiple extensions
 	 * http://httpd.apache.org/docs/1.3/mod/mod_mime.html#multipleext
 	 *
-	 * @param	string
+	 * @param	string	$filename
 	 * @return	string
 	 */
 	protected function _prep_filename($filename)
 	{
-		if (strpos($filename, '.') === FALSE AND $this->allowed_types != '*')
+		if ( ( strrpos($filename, '.') === FALSE AND $this->allowed_types === '*') OR $this->allowed_types === '*')
 		{
-			return $filename;
+			return $filename;       // si no tiene ext y se permite todo O se permite todo tenga o no extension, dale!
 		}
+		$ext_pos = strrpos($filename, '.');
 
-		$parts		= explode('.', $filename);
-		$ext		= array_pop($parts);
-		$filename	= array_shift($parts);
+		$ext = substr($filename, $ext_pos);
+		$filename = substr($filename, 0, $ext_pos);
 
-		if ( strcasecmp($ext,  $this->allowed_types) == 0 OR $this->allowed_types == '*' )
-		{
-			if ($this->convert_dots === TRUE) 
-			{
-				$filename = implode('_', $parts); 
-			}
-			else
-			{
-				$filename = implode('.', $parts);
-			}
-		}
-
+		$filename = str_replace('.', '_', $filename);
 		$filename .= '.'.$ext;
 
 		return $filename;
