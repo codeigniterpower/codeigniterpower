@@ -52,6 +52,7 @@ class CI_Email {
 	var $send_multipart	= TRUE;		// TRUE/FALSE - Yahoo does not like multipart alternative, so this is an override.  Set to FALSE for Yahoo.
 	var	$bcc_batch_mode	= FALSE;	// TRUE/FALSE  Turns on/off Bcc batch feature
 	var	$bcc_batch_size	= 200;		// If bcc_batch_mode = TRUE, sets max number of Bccs in each batch
+	var $starttls       = FALSE;    // Issue STARTTLS after connection to switch to Secure SMTP over TLS (RFC 3207)
 	var $_safe_mode		= FALSE;
 	var	$_subject		= "";
 	var	$_body			= "";
@@ -1615,7 +1616,19 @@ class CI_Email {
 			return FALSE;
 		}
 
-		$this->_smtp_connect();
+		if (!$this->_smtp_connect()) {
+		    return FALSE;	       // connect smtp but still not determinate wich smtp nature of, see starttls next function
+		}
+
+		if ($this->starttls) {
+		    if (! $this->_send_command('starttls')) {
+		        $this->_set_error_message('email_starttls_failed');
+		        return FALSE;
+		    }
+		    stream_socket_enable_crypto($this->_smtp_connect, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+		    $this->_send_command('hello');
+		}
+
 		$this->_smtp_authenticate();
 
 		$this->_send_command('from', $this->clean_email($this->_headers['From']));
@@ -2076,8 +2089,8 @@ class CI_Email {
 						'mov'	=>	'video/quicktime',
 						'avi'	=>	'video/x-msvideo',
 						'movie'	=>	'video/x-sgi-movie',
-						'doc'	=>	'application/msword',
-						'word'	=>	'application/msword',
+						'odt'	=>	'application/msword',
+						'ods'	=>	'application/msword',
 						'xl'	=>	'application/excel',
 						'eml'	=>	'message/rfc822'
 					);
