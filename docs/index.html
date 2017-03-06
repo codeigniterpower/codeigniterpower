@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>Alm procesos principales</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<style>
+body { font:80% Verdana,Tahoma,Arial,sans-serif; }
+h1, h2, h3, h4 {  font-family: "Trebuchet MS",Georgia,"Times New Roman",serif; }
+ul.toc { padding: 4px; margin-left: 0; }
+ul.toc li { list-style-type:none; }
+ul.toc li.heading2 { margin-left: 1em; }
+ul.toc li.heading3 { margin-left: 2em; }
+a.wiki-anchor { display: none; margin-left: 6px; text-decoration: none; }
+a.wiki-anchor:hover { color: #aaa !important; text-decoration: none; }
+h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display: inline; color: #ddd; }
+</style>
+</head>
+<body>
+<ul class="toc"><li><a href="#Artefactos-que-provee">Artefactos que provee</a><ul><li><a href="#DESPACHO">DESPACHO</a><ul><li><a href="#Pedido-alm_pedido_desarrollo">Pedido -> alm_pedido_desarrollo</a></li><li><a href="#Orden-alm_orden_desarrollo">Orden -> alm_orden_desarrollo</a></li><li><a href="#Despacho-alm_despacho_desarrollo">Despacho -> alm_despacho_desarrollo</a></li></ul>
+</li><li><a href="#RECEPCION">RECEPCION</a><ul><li><a href="#La-flecha-y-el-movimiento">La flecha y el movimiento</a></li><li><a href="#Inconsistencias">Inconsistencias</a></li><li><a href="#confirmacion">confirmacion</a></li></ul>
+</li><li><a href="#INVENTARIO">INVENTARIO</a><ul><li><a href="#Conteos-ciclicos">Conteos ciclicos</a></li><li><a href="#Conteos-globales">Conteos globales</a></li><li><a href="#Conteos-de-despacho">Conteos de despacho</a></li></ul></li></ul></li></ul>
+
+
+	<p>Esta documentacion define los procesos del sistema creado.</p>
+
+
+	<a name="Artefactos-que-provee"></a>
+<h2 >Artefactos que provee<a href="#Artefactos-que-provee" class="wiki-anchor">&para;</a></h2>
+
+
+	<ul>
+	<li>DESPACHO
+	<ul>
+	<li>pedido de bienes</li>
+		<li>orden de compra</li>
+		<li>despacho y facturacion</li>
+	</ul>
+	</li>
+		<li>RECEPCION
+	<ul>
+	<li>recepcion de despacho</li>
+		<li>inconsistencias</li>
+		<li>recepcion pedido/orden externo</li>
+	</ul>
+	</li>
+		<li>INVENTARIO
+	<ul>
+	<li>productos (vista de catalogo)</li>
+		<li>existencias</li>
+		<li>ciclicos</li>
+		<li>ubicaciones</li>
+		<li>almacenes</li>
+		<li>movimientos (registros in/out)</li>
+	</ul></li>
+	</ul>
+
+
+	<a name="DESPACHO"></a>
+<h3 >DESPACHO<a href="#DESPACHO" class="wiki-anchor">&para;</a></h3>
+
+
+	<a name="Pedido-alm_pedido_desarrollo"></a>
+<h4 >Pedido -> <a href="Alm_pedido_desarrollo.html" class="wiki-page new">alm_pedido_desarrollo</a><a href="#Pedido-alm_pedido_desarrollo" class="wiki-anchor">&para;</a></h4>
+
+
+	<p>Un actor (pedidor) realiza un pedido para un tercero (destino) lo que implica tambien que tiene destino (entidad).</p>
+
+
+	<p>Al registrarse el pedido, se crea un codigo de "conjunto de productos" que seran los productos a pedir en dicho pedido.</p>
+
+
+	<p>La cotizacion es implicita porque usando el mismo "conjunto" se consultan los precios, en dado caso se use.</p>
+
+
+	<p>La cantidad es solicitada solo revisando la existencia en el sistema, pero no altera la disponibilidad nunca.</p>
+
+
+	<p>El pedido se altera hasta que se compromete (se acepta por parte del pedidor) este pasara a orden de compra</p>
+
+
+	<a name="Orden-alm_orden_desarrollo"></a>
+<h4 >Orden -> <a href="Alm_orden_desarrollo.html" class="wiki-page new">alm_orden_desarrollo</a><a href="#Orden-alm_orden_desarrollo" class="wiki-anchor">&para;</a></h4>
+
+
+	<p>Un actor (origen) toma un pedido conforme por parte del cliente (pedidor + destino), esto es una orden de compra.</p>
+
+
+	<p>El "conjunto de productos" del pedido pasa a el "conjunto de productos" de la orden de compra, se genera un codigo para contar.</p>
+
+
+	<p>El precio si aplica cotizacion, se coloca "copiado" pues el precio se compromete al generarse la orden y vence al vecerse la orden.</p>
+
+
+	<p>La cantidad si es revisada y los productos comprometidos en la orden se "quitan" de disponibles mas aun no se restan.</p>
+
+
+	<p>La orden no es alterada por el actor (pedidor) sino por el actor (origen) segun disponibilidad de productos.</p>
+
+
+	<p>El cliente actor (pedidor) si acepta se genera el despacho, si rechaza, se puede seguir modificando por el actor (origen).</p>
+
+
+	<a name="Despacho-alm_despacho_desarrollo"></a>
+<h4 >Despacho -> <a href="Alm_despacho_desarrollo.html" class="wiki-page new">alm_despacho_desarrollo</a><a href="#Despacho-alm_despacho_desarrollo" class="wiki-anchor">&para;</a></h4>
+
+
+	<p>El sistema (origen) genera un despacho con estado predespachado a partir de la orden de compra, solo que ya tiene facturacion.</p>
+
+
+	<p>El "conjunto de productos" de la orden pasa a el "conjunto de productos" del despacho, se genera otro codigo para contar.</p>
+
+
+	<p>El precio se toma y se coloca, "copiado" pues el precio se compromete al generarse la orden y solo aplica en dicho despacho.</p>
+
+
+	<p>La cantidad y los productos se restan de la disponibilidad, se realiza un conteo para verificar la carga segun el codigo generado.</p>
+
+
+	<p>El despacho no se puede alterar, solo el conteo puede alterarlo, si el conteo no es exacto se agrega dicha nota al despacho.</p>
+
+
+	<p>El cliente actor (pedidor) revisa la cuenta en la recepcion del despacho, el actor (origen) puede anular el despacho por incompleto.</p>
+
+
+	<a name="RECEPCION"></a>
+<h3 >RECEPCION<a href="#RECEPCION" class="wiki-anchor">&para;</a></h3>
+
+
+	<a name="La-flecha-y-el-movimiento"></a>
+<h4 >La flecha y el movimiento<a href="#La-flecha-y-el-movimiento" class="wiki-anchor">&para;</a></h4>
+
+
+	<a name="Inconsistencias"></a>
+<h4 >Inconsistencias<a href="#Inconsistencias" class="wiki-anchor">&para;</a></h4>
+
+
+	<a name="confirmacion"></a>
+<h4 >confirmacion<a href="#confirmacion" class="wiki-anchor">&para;</a></h4>
+
+
+	<a name="INVENTARIO"></a>
+<h3 >INVENTARIO<a href="#INVENTARIO" class="wiki-anchor">&para;</a></h3>
+
+
+	<a name="Conteos-ciclicos"></a>
+<h4 >Conteos ciclicos<a href="#Conteos-ciclicos" class="wiki-anchor">&para;</a></h4>
+
+
+	<a name="Conteos-globales"></a>
+<h4 >Conteos globales<a href="#Conteos-globales" class="wiki-anchor">&para;</a></h4>
+
+
+	<a name="Conteos-de-despacho"></a>
+<h4 >Conteos de despacho<a href="#Conteos-de-despacho" class="wiki-anchor">&para;</a></h4>
+</body>
+</html>
