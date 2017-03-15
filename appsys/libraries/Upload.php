@@ -29,8 +29,8 @@ class CI_Upload {
 	public $max_size				= 0;
 	public $max_width				= 0;
 	public $max_height				= 0;
-	public $max_filename				= 0;
-	public $allowed_types				= "";
+	public $max_filename			= 0;
+	public $allowed_types			= "";
 	public $file_temp				= "";
 	public $file_name				= "";
 	public $orig_name				= "";
@@ -39,15 +39,15 @@ class CI_Upload {
 	public $file_ext				= "";
 	public $upload_path				= "";
 	public $overwrite				= FALSE;
-	public $encrypt_name				= FALSE;
+	public $encrypt_name			= FALSE;
 	public $is_image				= FALSE;
 	public $image_width				= '';
-	public $image_height				= '';
+	public $image_height			= '';
 	public $image_type				= '';
-	public $image_size_str				= '';
+	public $image_size_str			= '';
 	public $error_msg				= array();
 	public $mimes					= array();
-	public $remove_spaces				= TRUE;
+	public $remove_spaces			= TRUE;
 	public $xss_clean				= FALSE;
 	public $temp_prefix				= "temp_file_";
 	public $client_name				= '';
@@ -133,7 +133,6 @@ class CI_Upload {
 		// if a file_name was provided in the config, use it instead of the user input
 		// supplied file name for all uploads until initialized again
 		$this->_file_name_override = $this->file_name;
-		return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -260,6 +259,7 @@ class CI_Upload {
 		}
 
 		// Sanitize the file name for security
+		$CI =& get_instance();
 		$this->file_name = $this->clean_file_name($this->file_name);
 
 		// Truncate the file name if it's too long
@@ -399,7 +399,7 @@ class CI_Upload {
 			$filename = md5(uniqid(mt_rand())).$this->file_ext;
 		}
 
-		if ($this->overwrite === TRUE OR ! file_exists($path.$filename))
+		if ( ! file_exists($path.$filename)) // if ($this->overwrite === TRUE OR ! file_exists($path.$filename)) // permite que asigne nombre nuevo no importa si esta permitido
 		{
 			return $filename;
 		}
@@ -407,7 +407,7 @@ class CI_Upload {
 		$filename = str_replace($this->file_ext, '', $filename);
 
 		$new_filename = '';
-		for ($i = 1; $i < 500; $i++)
+		for ($i = 1; $i < 400; $i++)
 		{
 			if ( ! file_exists($path.$filename.$i.$this->file_ext))
 			{
@@ -979,7 +979,7 @@ class CI_Upload {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Prep Filename
+	 * Prep Filename backported from ci 3, ci 2 does not property pre filename
 	 *
 	 * Prevents possible script execution from Apache's handling of files multiple extensions
 	 * http://httpd.apache.org/docs/1.3/mod/mod_mime.html#multipleext

@@ -754,7 +754,7 @@ class CI_Form_validation {
 	 * @access	public
 	 * @param	string
 	 * @param	string
-	 * @param	int
+	 * @param	int  soporte de id in tag
 	 * @return	string
 	 */
 	public function set_select($field = '', $value = '', $default = FALSE, $id = '')
