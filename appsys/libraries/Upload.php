@@ -29,8 +29,8 @@ class CI_Upload {
 	public $max_size				= 0;
 	public $max_width				= 0;
 	public $max_height				= 0;
-	public $max_filename			= 0;
-	public $allowed_types			= "";
+	public $max_filename				= 0;
+	public $allowed_types				= "";
 	public $file_temp				= "";
 	public $file_name				= "";
 	public $orig_name				= "";
@@ -39,15 +39,15 @@ class CI_Upload {
 	public $file_ext				= "";
 	public $upload_path				= "";
 	public $overwrite				= FALSE;
-	public $encrypt_name			= FALSE;
+	public $encrypt_name				= FALSE;
 	public $is_image				= FALSE;
 	public $image_width				= '';
-	public $image_height			= '';
+	public $image_height				= '';
 	public $image_type				= '';
-	public $image_size_str			= '';
+	public $image_size_str				= '';
 	public $error_msg				= array();
 	public $mimes					= array();
-	public $remove_spaces			= TRUE;
+	public $remove_spaces				= TRUE;
 	public $xss_clean				= FALSE;
 	public $temp_prefix				= "temp_file_";
 	public $client_name				= '';
@@ -204,7 +204,7 @@ class CI_Upload {
 		$this->file_type = strtolower(trim(stripslashes($this->file_type), '"'));
 		$this->file_name = $this->_prep_filename($_FILES[$field]['name']);
 		$this->file_ext	 = $this->get_extension($this->file_name);
-		$this->client_name = $this->file_name;
+		$this->client_name = $_FILES[$field]['name'];
 
 		// Is the file type allowed to be uploaded?
 		if ( ! $this->is_allowed_filetype())
@@ -221,7 +221,7 @@ class CI_Upload {
 			// If no extension was provided in the file_name config item, use the uploaded one
 			if (strpos($this->_file_name_override, '.') === FALSE)
 			{
-				$this->file_name .= $this->file_ext;
+				$this->file_name .= $this->file_ext; // in function file extension its provided with dot
 			}
 
 			// An extension was provided, lets have it!
@@ -742,7 +742,7 @@ class CI_Upload {
 	public function get_extension($filename)
 	{
 		$x = explode('.', $filename);
-		return (count($x) !== 1) ? '.'.end($x) : '';
+		return '.'.end($x);
 	}
 
 	// --------------------------------------------------------------------
@@ -999,7 +999,7 @@ class CI_Upload {
 		$filename = substr($filename, 0, $ext_pos);
 
 		$filename = str_replace('.', '_', $filename);
-		$filename .= '.'.$ext;
+		$filename .= $ext;
 
 		return $filename;
 	}
