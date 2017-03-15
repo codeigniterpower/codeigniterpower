@@ -45,7 +45,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	var $_count_string = "SELECT COUNT(*) AS ";
 	var $_random_keyword;
-	
+
 	var $options = array();
 
 	function __construct($params)
@@ -190,26 +190,32 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		$sql = $this->_prep_query($sql);
 		$result_id = $this->conn_id->prepare($sql);
-		$execute = $result_id->execute();
-		
-		if (is_object($result_id) && $execute)
+
+		if (is_object($result_id) )
 		{
-			if (is_numeric(stripos($sql, 'SELECT')))
+			if ( $result_id->execute() )
 			{
-				$this->affect_rows = count($result_id->fetchAll());
-				$result_id->execute();
+				if (is_numeric(stripos($sql, 'SELECT')))
+				{
+					$this->affect_rows = count($result_id->fetchAll());
+				}
+				else
+				{
+					$this->affect_rows = $result_id->rowCount();
+				}
 			}
 			else
 			{
-				$this->affect_rows = $result_id->rowCount();
+				$this->affect_rows = 0;
+				return FALSE;
 			}
 		}
 		else
 		{
 			$this->affect_rows = 0;
-			return FALSE
+			return FALSE;
 		}
-		
+
 		return $result_id;
 	}
 

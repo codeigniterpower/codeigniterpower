@@ -105,7 +105,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	function db_select()
 	{
-		// Not needed for ODBC
+		// TODO : not needed for ODBC ???
 		return TRUE;
 	}
 
@@ -296,7 +296,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	function affected_rows()
 	{
-		return @odbc_num_rows($this->conn_id);
+		return abs( @odbc_num_rows($this->conn_id));
 	}
 
 	// --------------------------------------------------------------------
@@ -396,7 +396,7 @@ class CI_DB_odbc_driver extends CI_DB {
 	 */
 	function _field_data($table)
 	{
-		return "SELECT TOP 1 FROM ".$table;
+		return "SELECT TOP 1 FROM ".$table; // TODO : determinar cuando es soportado TOP
 	}
 
 	// --------------------------------------------------------------------
