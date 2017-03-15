@@ -158,11 +158,24 @@ class CI_Profiler {
 		$dbs = array();
 
 		// Let's determine which databases are currently connected to
-		foreach (get_object_vars($this->CI) as $CI_object)
+		foreach (get_object_vars($this->CI) as $name => $cobject)
 		{
-			if (is_object($CI_object) && is_subclass_of(get_class($CI_object), 'CI_DB') )
+			if (is_object($cobject) )
 			{
-				$dbs[] = $CI_object;
+				if ($cobject instanceof CI_DB)
+				{
+					$dbs[get_class($this->CI).':$'.$name] = $cobject;
+				}
+				elseif ($cobject instanceof CI_Model)
+				{
+					foreach (get_object_vars($cobject) as $mname => $mobject)
+					{
+						if ($mobject instanceof CI_DB)
+						{
+							$dbs[get_class($cobject).':$'.$mname] = $mobject;
+						}
+					}
+				}
 			}
 		}
 
@@ -191,7 +204,7 @@ class CI_Profiler {
 
 		$count = 0;
 
-		foreach ($dbs as $db)
+		foreach ($dbs as $name => $db)
 		{
 			$count++;
 
@@ -206,7 +219,7 @@ class CI_Profiler {
 
 			$output .= '<fieldset style="border:1px solid #0000FF;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
 			$output .= "\n";
-			$output .= '<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_database').':&nbsp; '.$db->database.'&nbsp;&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries').': '.count($db->queries).'&nbsp;&nbsp;'.$show_hide_js.'</legend>';
+			$output .= '<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_database').':&nbsp; '.$db->database.' ('.$name.')&nbsp;&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries').': '.count($db->queries).'&nbsp;&nbsp;'.$show_hide_js.'</legend>';
 			$output .= "\n";
 			$output .= "\n\n<table style='width:100%;{$hide_queries}' id='ci_profiler_queries_db_{$count}'>\n";
 
@@ -304,7 +317,7 @@ class CI_Profiler {
 		$output .= '<legend style="color:#009900;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_post_data').'&nbsp;&nbsp;</legend>';
 		$output .= "\n";
 
-		if (count($_POST) == 0)
+		if (count($_POST) == 0 AND count($_FILES) === 0)
 		{
 			$output .= "<div style='color:#009900;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_post')."</div>";
 		}
@@ -328,6 +341,24 @@ class CI_Profiler {
 				{
 					$output .= htmlspecialchars(stripslashes($val));
 				}
+				$output .= "</td></tr>\n";
+			}
+
+			foreach ($_FILES as $key => $val)
+			{
+				if ( ! is_numeric($key))
+				{
+					$key = "'".$key."'";
+				}
+
+				$output .= '<tr><td style="width:50%;padding:5px;color:#000;background-color:#ddd;">&#36;_FILES['
+					.$key.']&nbsp;&nbsp; </td><td style="width:50%;padding:5px;color:#009900;font-weight:normal;background-color:#ddd;">';
+
+				if (is_array($val) OR is_object($val))
+				{
+					$output .= '<pre>'.htmlspecialchars(stripslashes(print_r($val, TRUE))).'</pre>';
+				}
+
 				$output .= "</td></tr>\n";
 			}
 
