@@ -519,6 +519,10 @@ class CI_Profiler extends CI_Loader {
 
 	public function _compile_console()
 	{
+
+		// Make sure the Console is loaded.
+		$this->CI->load->library('Console');
+
 		$logs = Console::get_logs();
 
 		if ($logs['console'])
@@ -556,12 +560,15 @@ class CI_Profiler extends CI_Loader {
 				{
 					if (is_numeric($key))
 					{
-						$output[$key] = "'$val'";
+						$output[$key] = print_r($val,true);
 					}
 
 					if (is_array($val) || is_object($val))
 					{
-						$output[$key] = htmlspecialchars(stripslashes(print_r($val, true)));
+						if (is_object($val))
+							$output[$key] = json_encode($val); // revise 
+						else
+							$output[$key] = htmlspecialchars(stripslashes(print_r($val, true)));
 					}
 					else
 					{
@@ -591,7 +598,7 @@ class CI_Profiler extends CI_Loader {
 		{
 			if (is_numeric($key))
 			{
-				$output[$key] = "'$val'";
+				$output[$key] = print_r($val,true);
 			}
 
 			if (is_array($val) || is_object($val))
@@ -651,7 +658,7 @@ class CI_Profiler extends CI_Loader {
 			}
 		}
 
-		return $this->CI->load->view('profiler_template', array('sections' => $this->_sections), true);
+		return $this->CI->load->view('standars/profiler_template', array('sections' => $this->_sections), true);
 	}
 
 }
