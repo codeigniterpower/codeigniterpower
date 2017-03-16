@@ -373,6 +373,26 @@ class CI_Profiler extends CI_Loader {
 					$output['&#36;_POST['. $key .']'] = htmlspecialchars(stripslashes($val));
 				}
 			}
+			
+			if (count($_FILES) == 0)
+			foreach ($_FILES as $key => $val)
+			{
+				if ( ! is_numeric($key))
+				{
+					$key = "'".$key."'";
+				}
+
+				if (is_array($val) OR is_object($val))
+				{
+					$output['&#36;_POST[FILE'. $key .']'] =  '<pre>'.htmlspecialchars(stripslashes(print_r($val, TRUE))).'</pre>';
+				}
+				else
+				
+				{
+					$output['&#36;_POST[FILE'. $key .']'] = htmlspecialchars(stripslashes($val));
+				}
+			}
+
 		}
 
 		return $output;
@@ -631,7 +651,7 @@ class CI_Profiler extends CI_Loader {
 			}
 		}
 
-		return $this->CI->load->view('standars/profiler_template', array('sections' => $this->_sections), true);
+		return $this->CI->load->view('profiler_template', array('sections' => $this->_sections), true);
 	}
 
 }
