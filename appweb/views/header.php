@@ -14,10 +14,3 @@ $this->load->helper('html');
 	echo '</head>', PHP_EOL;
 	?>
 	<body onload = 'checkAvailable()' >
-		<div class="menu ">
-			<center>
-				<!--<img src="<?php echo $giflogo ?>" alt="Logo VNX Codeigniter" width="880" height="24" />-->
-				<?=$menu.PHP_EOL?>
-			</center>
-		</div>
-	<center>
