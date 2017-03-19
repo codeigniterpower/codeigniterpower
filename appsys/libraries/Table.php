@@ -38,6 +38,7 @@ class CI_Table {
 	var	$function			= FALSE;
 	var $tableid			= "";
 	var $enabledatatable	= "0";
+	var $enabletoppager		= FALSE;
 	var $datatableoptions	= "searchable: true, fixedHeight: true, perPage: 5";
 
 	public function __construct()
@@ -114,10 +115,16 @@ class CI_Table {
 		foreach ($options as $key => $val)
 		{
 			$key = (string) $key;
-			if ( !is_array($val) && ! empty($val))
+
+			if (strpos($key, 'topindexpager') !== FALSE )
 			{
-				$jsoptions .= ' '.$key.': '.$val.',';
+				$this->enabletoppager = TRUE;
+				if (count($options) === 1)
+					$jsoptions .= ' searchable: false,';
 			}
+
+			if ( !is_array($val) && ! empty($val))
+				$jsoptions .= ' '.$key.': '.$val.',';
 		}
 
 		$jsoptions = substr($jsoptions, 0, -1);
@@ -546,12 +553,14 @@ class CI_Table {
 				{
 					// lest generatin a vanilla datatable code for table id
 					$tablejscodetags = '<script src="'.base_url() . APPPATH . 'scripts/vanilla-dataTables.js"></script>';
-					$tablejscodetags .= PHP_EOL;
 					$tablejscodetags .= '
 						<script>
 						var table'.$tableid.' = document.getElementById(\''.$tableid.'\');
 						var options'.$tableid.' = { '.$this->datatableoptions.' };
-						var data'.$tableid.' = new DataTable(table'.$tableid.', options'.$tableid.');
+						var data'.$tableid.' = new DataTable(table'.$tableid.', options'.$tableid.');';
+						if ( $this->enabletoppager )
+						{
+						$tablejscodetags .= '
 						// top paginator custom render
 						var topContainer = data'.$tableid.'.container.parentNode.firstElementChild;
 						var topPager = data'.$tableid.'.paginator.parentNode.cloneNode(true);
@@ -563,7 +572,9 @@ class CI_Table {
 						data'.$tableid.'.on("data'.$tableid.'.update", updatePager);
 						data'.$tableid.'.on("data'.$tableid.'.page", updatePager);
 						// define hack function to update when click new pager
-						function updatePager() {	topContainer.replaceChild(data'.$tableid.'.paginator.parentNode.cloneNode(true), topContainer.lastElementChild); }
+						function updatePager() {	topContainer.replaceChild(data'.$tableid.'.paginator.parentNode.cloneNode(true), topContainer.lastElementChild); }';
+						}
+						$tablejscodetags .= '
 						</script>'.PHP_EOL;
 					// added the js code to the close tag with the table
 					$this->template['table_close'] = $tableclosetag.$tablejscodetags;
@@ -638,7 +649,7 @@ class CI_Table {
 	function _default_template()
 	{
 		return  array (
-						'table_open'			=> '<table border="0" cellpadding="4" cellspacing="0" vanilladatatable='.$this->enabledatatable.' >',
+						'table_open'			=> '<table border="0" cellpadding="1" cellspacing="0" vanilladatatable='.$this->enabledatatable.' >',
 
 						'thead_open'			=> '<thead>',
 						'thead_close'			=> '</thead>',

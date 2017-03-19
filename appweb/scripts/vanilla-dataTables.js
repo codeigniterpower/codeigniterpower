@@ -210,7 +210,7 @@
 			_.input = util.createElement('input', {
 				type: 'text',
 				class: 'dataTable-input',
-				placeholder: 'Search...'
+				placeholder: 'Search... / Buscar...'
 			});
 			util.append(form, _.input);
 			util.append(top, form);
@@ -411,7 +411,7 @@
 			items = !!_.searching ? _.searchData.length : _.rows.length;
 		}
 
-		_.label.innerHTML = ['Showing ', f, ' to ', t, ' of ', items, ' rows'].join('');
+		_.label.innerHTML = ['&rsaquo; ', f, ' &lsaquo;-&rsaquo; ', t, ' : ', items, ' total'].join('');
 
 		if (_.options.fixedHeight && _.currentPage == 1) {
 			fixHeight.call(_);
@@ -641,17 +641,17 @@
 
 		var defaults = {
 			perPage: 10,
-			perPageSelect: [5, 10, 15, 20, 25],
+			perPageSelect: [5, 10, 15, 20, 25, 50, 100],
 			nextPrev: true,
-			firstLast: false,
-			prevText: '&lsaquo;',
-			nextText: '&rsaquo;',
-			firstText: '&laquo;',
-			lastText: '&raquo;',
+			firstLast: true,
+			prevText: '|&lsaquo;&lsaquo;|',
+			nextText: '|&rsaquo;&rsaquo;|',
+			firstText: '|&laquo;&laquo;|',
+			lastText: '|&raquo;&raquo;|',
 			sortable: true,
 			searchable: true,
-			fixedColumns: true,
-			fixedHeight: false,
+			fixedColumns: false,
+			fixedHeight: true,
 			truncatePager: true,
 			pagerDelta: 2
 		};

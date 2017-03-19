@@ -7,10 +7,6 @@ class Indexcontroler extends CI_Controller {
 		parent::__construct();
 		$this->load->helper(array('form', 'url','html'));
 		$this->load->library('table');
-<<<<<<< HEAD
-		 //el profiler esta dañado.. debido a una mala coarga de arreglos para los de idiomas
-=======
->>>>>>> e171b04fd10de8b4d5d3a6b8694f5093c3210149
 		$this->output->enable_profiler(TRUE);
 	}
 

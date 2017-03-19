@@ -3,7 +3,7 @@
 
 .dataTable-top,
 .dataTable-bottom {
-	padding: 8px 10px;
+	padding: 1px 5px;
 }
 
 .dataTable-info,
@@ -17,11 +17,11 @@
 }
 
 .dataTable-selector {
-	padding: 6px;
+	padding: 1px;
 }
 
 .dataTable-input {
-	padding: 6px 12px;
+	padding: 1px 4px;
 }
 
 .dataTable-pagination ul {
@@ -38,7 +38,7 @@
 	border: 1px solid transparent;
 	float: left;
 	margin-left: 2px;
-	padding: 6px 12px;
+	padding: 1px 2px;
 	position: relative;
 	text-decoration: none;
 	color: #333;
@@ -76,7 +76,7 @@
 
 /* TABLE */
 .dataTable-table {
-	margin: 15px 0;
+	margin: 5px 0;
 	max-width: 100%;
 	width: 100%;
 	border-spacing: 0;
@@ -88,10 +88,10 @@
 .dataTable-table > tfoot > tr > th,
 .dataTable-table > thead > tr > td,
 .dataTable-table > thead > tr > th {
-	vertical-align: top;
-	padding: 8px 10px;
+	/*vertical-align: top;*/
+	padding: 1px 4px;
 }
-
+/*
 .dataTable-table > thead > tr > th {
 	vertical-align: bottom;
 	text-align: left;
@@ -102,7 +102,7 @@
 	vertical-align: bottom;
 	text-align: left;
 }
-
+*/
 .dataTable-table th a {
 	text-decoration: none;
 	color: inherit;

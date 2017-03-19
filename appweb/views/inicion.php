@@ -6,7 +6,7 @@
 		echo br().PHP_EOL;  // genera neuva linea en codigo html al navegador
 		echo form_fieldset('titulo marco',array('class'=>'containerin ') );
 		$this->table->clear();
-		$this->table->set_datatables();
+		$this->table->set_datatables( array("topindexpager"=>TRUE) );
 			$this->table->set_heading('col1: ','col2');
 			$this->table->add_row('celda y alla campo select autogenerado:', form_dropdown('cod_subcategoria', array('1', '2', 'otr'),null,'id="list_subcategoria"'));
 			$this->table->add_row('celda tabla2: ','otra celsa22');
