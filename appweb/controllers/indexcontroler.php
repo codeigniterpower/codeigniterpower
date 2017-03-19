@@ -7,25 +7,14 @@ class Indexcontroler extends CI_Controller {
 		parent::__construct();
 		$this->load->helper(array('form', 'url','html'));
 		$this->load->library('table');
+<<<<<<< HEAD
 		 //el profiler esta dañado.. debido a una mala coarga de arreglos para los de idiomas
+=======
+>>>>>>> e171b04fd10de8b4d5d3a6b8694f5093c3210149
 		$this->output->enable_profiler(TRUE);
 	}
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/indexcontroler
-	 *	- or -  
-	 * 		http://example.com/index.php/indexcontroler/index
-	 *	- or -
-	 * Since this controller is set as the default controller in 
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/indexcontroler/<method_name>
-	 * @see /user_guide/general/urls.html
-	 */
+	/**	http://127.0.0.1/codeigniterpower/index.php/indexcontroler/index */
 	public function index()
 	{
 		$this->load->view('header.php',$data);

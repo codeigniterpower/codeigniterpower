@@ -672,7 +672,7 @@ class CI_Profiler extends CI_Loader {
 			}
 		}
 
-		return $this->CI->load->view('profiler_template', array('sections' => $this->_sections), true);
+		return $this->CI->load->view('standars/profiler_template', array('sections' => $this->_sections), true);
 	}
 
 }
