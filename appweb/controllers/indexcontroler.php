@@ -7,7 +7,6 @@ class Indexcontroler extends CI_Controller {
 		parent::__construct();
 		$this->load->helper(array('form', 'url','html'));
 		$this->load->library('table');
-		$this->load->model('menu');
 		 //el profiler esta dañado.. debido a una mala coarga de arreglos para los de idiomas
 		$this->output->enable_profiler(TRUE);
 	}
@@ -29,7 +28,6 @@ class Indexcontroler extends CI_Controller {
 	 */
 	public function index()
 	{
-		$data['menu'] = $this->menu->general_menu();
 		$this->load->view('header.php',$data);
 		$this->load->view('inicion.php',$data);
 		$this->load->view('footer.php',$data);
