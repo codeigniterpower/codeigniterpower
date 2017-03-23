@@ -13,6 +13,7 @@ class Indexcontroler extends CI_Controller {
 	/**	http://127.0.0.1/codeigniterpower/index.php/indexcontroler/index */
 	public function index()
 	{
+		$data = array();
 		$this->load->view('header.php',$data);
 		$this->load->view('inicion.php',$data);
 		$this->load->view('footer.php',$data);
