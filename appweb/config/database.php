@@ -61,7 +61,6 @@ $db['default']['cachedir'] = '';
 $db['default']['char_set'] = 'utf8';
 $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
-$db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
 $db['saint']['hostname'] = '37.10.254.100';
@@ -77,7 +76,6 @@ $db['saint']['cachedir'] = '';
 $db['saint']['char_set'] = 'utf8';
 $db['saint']['dbcollat'] = 'utf8_general_ci';
 $db['saint']['swap_pre'] = '';
-$db['saint']['autoinit'] = TRUE;
 $db['saint']['stricton'] = FALSE;
 
 /* End of file database.php */
