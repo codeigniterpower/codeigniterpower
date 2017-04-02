@@ -214,7 +214,7 @@ window.onload = function() {
 		<?php if (isset($sections['eloquent'])) : ?>
 			<a href="#" id="ci-profiler-menu-eloquent" onclick="ci_profiler_bar.show('ci-profiler-eloquent', 'ci-profiler-menu-eloquent'); return false;">
 				<span><?php echo is_array($sections['eloquent']) ? (count($sections['eloquent']) - 1) : 0 ?> Eloquent</span>
-				Illuminate\Database
+				ILLUM\DB
 			</a>
 		<?php endif; ?>
 

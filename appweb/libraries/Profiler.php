@@ -365,30 +365,35 @@ class CI_Profiler extends CI_Loader {
 	{
 		$output = array();
 
-		if (count($_POST) == 0)
+		if (count($_POST) == 0 AND $_FILES == 0)
 		{
 			$output = $this->CI->lang->line('profiler_no_post');
 		}
 		else
 		{
-			foreach ($_POST as $key => $val)
+			if (count($_POST) > 0)
 			{
-				if ( ! is_numeric($key))
+				foreach ($_POST as $key => $val)
 				{
-					$key = "'".$key."'";
-				}
+					if ( ! is_numeric($key))
+					{
+						$key = "'".$key."'";
+					}
 
-				if (is_array($val))
-				{
-					$output['&#36;_POST['. $key .']'] = '<pre>'. htmlspecialchars(stripslashes(print_r($val, TRUE))) . '</pre>';
-				}
-				else
-				{
-					$output['&#36;_POST['. $key .']'] = htmlspecialchars(stripslashes($val));
+					if (is_array($val))
+					{
+						$output['&#36;_POST['. $key .']'] = '<pre>'. htmlspecialchars(stripslashes(print_r($val, TRUE))) . '</pre>';
+					}
+					else
+					{
+						$output['&#36;_POST['. $key .']'] = htmlspecialchars(stripslashes($val));
+					}
 				}
 			}
-			
-			if (count($_FILES) == 0)
+			else
+				$output = $this->CI->lang->line('profiler_no_post');
+
+			if (count($_FILES) > 0)
 			foreach ($_FILES as $key => $val)
 			{
 				if ( ! is_numeric($key))
