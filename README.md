@@ -12,6 +12,7 @@ For that, have some additions in the pgsql and odbc drivers, as stetics ajust on
 
 * Bootstrap: css autoiniciado en cada tag html sin necesidad de usar clases especificas
 * Helpers: el tag de tabla y de select adiciona datatables y inputsearch sin usar jquery
+* Forms: los campos inputs autodetectan parametros y autogeneran un id siempre
 * Paginacion: se agrega posibilidad de indicar inicio y final sobreescrito a pagina 1 y pagina final
 * PGSQL: Soporte postgresql mejorado (en progreso) con integracion CRUD
 * Esquemas: Posibilidad de usar esquemas parciales en postgresql, con active recors (solo falla la verificacion si tabla existe)
