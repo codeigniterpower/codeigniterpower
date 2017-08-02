@@ -33,8 +33,23 @@ The software change is not just for "security", but because the hardware forces 
 In many places old versions of php are used but with their security patches,
 So that updating is an excuse to boost scheduled obsolescence.
 
-# Contact, contributions and info
+NOTE: our date time picker are the most older due renders! faster! in older browsers!
+
+# Contact, contributions and thanks
 
 Please if u are a mocosoft dont mess up, and go off!
+
+* Teng-Yong Ng datetimepicker http://www.rainforestnet.com/datetimepicker/datetimepicker-terms.htm
+* Vojtěch Klos (VojtechKlos) helps me implementing https://github.com/Symphony9/pickathing in comboboxes
+* Karl (Mobius1) for their great https://github.com/Mobius1/Vanilla-DataTables in tables class (outdated)
+* Spir https://github.com/Spir/vd-dump for var_dump re-implementation
+* Lonnie Ezell (lonnieezell)for their https://github.com/lonnieezell/codeigniter-forensics to enhanced profiler
+* Brad Stinson (bradstinson) for their https://github.com/bradstinson/csv-import for CVS import
+
+Planned:
+
+* https://github.com/bradstinson/httpful to sustitute the cURL library implementation
+* https://github.com/chriskacerguis/codeigniter-restserver REST server for CI 2.X and not 3.X
+* https://github.com/chriskacerguis/codeigniter-restclient REST client for CI 2.X and not 3.X
 
 We try to keep (and also track) as many updates and changes as posibles from version 3 of codeigniter, 
