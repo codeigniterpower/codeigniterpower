@@ -39,12 +39,12 @@ NOTE: our date time picker are the most older due renders! faster! in older brow
 
 Please if u are a mocosoft dont mess up, and go off!
 
-* Teng-Yong Ng datetimepicker http://www.rainforestnet.com/datetimepicker/datetimepicker-terms.htm
-* Vojtěch Klos (VojtechKlos) helps me implementing https://github.com/Symphony9/pickathing in comboboxes
-* Karl (Mobius1) for their great https://github.com/Mobius1/Vanilla-DataTables in tables class (outdated)
-* Spir https://github.com/Spir/vd-dump for var_dump re-implementation
-* Lonnie Ezell (lonnieezell)for their https://github.com/lonnieezell/codeigniter-forensics to enhanced profiler
-* Brad Stinson (bradstinson) for their https://github.com/bradstinson/csv-import for CVS import
+* Teng-Yong Ng datetimepicker http://www.rainforestnet.com/datetimepicker/datetimepicker-terms.htm commit (50e42e36b57ab0b957df7e42fd7c2cf3568e1b6e)
+* Vojtěch Klos (VojtechKlos) helps me implementing https://github.com/Symphony9/pickathing in comboboxes commit (b7c6ae9d631f74516799885a60bf21865407456c)
+* Karl (Mobius1) for their great https://github.com/Mobius1/Vanilla-DataTables in tables class (outdated) (26dc09766e5ef2e92cb9aca929a9f729e2509375)
+* Spir https://github.com/Spir/vd-dump for var_dump re-implementation commit (daeccba018dd499a7c5a932987e4cc78bee1c212)
+* Lonnie Ezell (lonnieezell)for their https://github.com/lonnieezell/codeigniter-forensics to enhanced profiler (ee9eacc3a3868af0ab6e854a5a8e983a66553f70)
+* Brad Stinson (bradstinson) for their https://github.com/bradstinson/csv-import for CVS import (pending)
 
 Planned:
 
