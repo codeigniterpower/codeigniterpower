@@ -13,6 +13,14 @@
  */
 class CI_Vd
 {
+
+
+	public function __construct()
+	{
+		log_message('debug', "Vd Class Initialized");
+	}
+
+
 	/** Beautifier var_dump library for CodeIgniter 
 	* @parameter var object/variable to dump
 	* @parameter name optional name of this variable/object
@@ -26,21 +34,21 @@ class CI_Vd
         {
         	echo "<pre style='$style'>" .
         		($name != '' ? "$name : " : '') .
-        		vd::_get_info_var ($var, $name) .
+        		self::_get_info_var ($var, $name) .
         		"</pre>";
         }
         else
         {
         	return "<pre style='$style'>" .
         		($name != '' ? "$name : " : '') .
-        		vd::_get_info_var ($var, $name) .
+        		self::_get_info_var ($var, $name) .
         		"</pre>";
         }
     }
 
     function get ($var, $name = '')
     {
-        return ($name != '' ? "$name : " : '') . vd::_get_info_var ($var, $name);
+        return ($name != '' ? "$name : " : '') . self::_get_info_var ($var, $name);
     }
 
 	function _get_info_var ($var, $name = '', $indent = 0)
@@ -64,7 +72,7 @@ class CI_Vd
 				}
 				else
 				{
-					$out .= vd::_get_info_var ($var[$key], '', $indent + 1);
+					$out .= self::_get_info_var ($var[$key], '', $indent + 1);
 				}
 			}
 			$out .= "$spc)";
@@ -80,7 +88,7 @@ class CI_Vd
 			while (list($prop, $val) = each($arr))
 			{
 				$out .= "$spc  " . "<font color='#888a85'>-&gt;</font><span style='color:purple;'>$prop</span> = ";
-				$out .= vd::_get_info_var ($val, $name != '' ? $prop : '', $indent + 1);
+				$out .= self::_get_info_var ($val, $name != '' ? $prop : '', $indent + 1);
 			}
 			$arr = get_class_methods ($var);
 			$out .= "$spc  " . "$class methods: " . count ($arr) . " ";
