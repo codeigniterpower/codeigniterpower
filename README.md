@@ -10,6 +10,7 @@ For that, have some additions in the pgsql and odbc drivers, as stetics ajust on
 
 ## FEATURES
 
+* Core: autodetection of localhost security denied and locale settings to GMT if not set datetime zone
 * Bootstrap: css autoiniciado en cada tag html sin necesidad de usar clases especificas
 * Helpers: el tag de tabla y de select adiciona datatables y inputsearch sin usar jquery
 * Forms: los campos inputs autodetectan parametros y autogeneran un id siempre
