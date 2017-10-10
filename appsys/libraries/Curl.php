@@ -8,9 +8,9 @@
  * @package        	CodeIgniter
  * @subpackage    	Libraries
  * @category    	Libraries
- * @author        	Philip Sturgeon
+ * @author        	Philip Sturgeon,PICCORO Lenz McKAY
  * @license         http://philsturgeon.co.uk/code/dbad-license
- * @link			http://philsturgeon.co.uk/code/codeigniter-curl
+ * @link			https://github.com/codeigniterpower
  */
 class Curl {
 
@@ -23,6 +23,7 @@ class Curl {
 	public $error_code;             // Error code returned as an int
 	public $error_string;           // Error message returned as a string
 	public $info;                   // Returned after request (elapsed time, etc)
+	public $verifpeer = TRUE;       // must verify perr certificate or not, false for auto sing
 
 	function __construct($url = '')
 	{
@@ -117,21 +118,26 @@ class Curl {
 		// If its an array (instead of a query string) then format it correctly
 		if (is_array($params)){
 			//Process file array if it exists
-			if(isset($params['file'])){
-				if(function_exists('finfo_open')){
-					foreach ($params['file'] as $key => &$value) {
-						if(file_exists($value)){
+			if(isset($params['file']))
+			{
+				if(function_exists('finfo_open'))
+				{
+					foreach ($params['file'] as $key => &$value) 
+					{
+						if(file_exists($value))
+						{
 							$finfo_open = finfo_open(FILEINFO_MIME_TYPE);
 							$file_mime = @finfo_file($finfo_open, $value);
 							$this->option(CURLOPT_POSTFIELDS, new CurlFile($value, $file_mime, end(explode('/', $value))));
 						}
 					}
-				} else{
+				}
+				else
+				{
 					log_message('error', 'You need enable fileinfo php extension before call post with file path param');
 				}
 				unset($params['file']);
 			}
-			
 			$params = http_build_query($params, NULL, '&');
 		}
 		// Add in the specific options provided
@@ -140,7 +146,7 @@ class Curl {
 		$this->option(CURLOPT_POST, TRUE);
 		$this->option(CURLOPT_POSTFIELDS, $params);
 	}
-	
+
 	public function put($params = array(), $options = array())
 	{
 		// If its an array (instead of a query string) then format it correctly
@@ -235,9 +241,9 @@ class Curl {
 
 	public function ssl($verify_peer = TRUE, $verify_host = 2, $path_to_cert = NULL)
 	{
-		if ($verify_peer)
+		if ($verify_peer AND $this->verifpeer)
 		{
-			$this->option(CURLOPT_SSL_VERIFYPEER, TRUE);
+			$this->option(CURLOPT_SSL_VERIFYPEER, $this->verifpeer);
 			$this->option(CURLOPT_SSL_VERIFYHOST, $verify_host);
 			if (isset($path_to_cert)) {
 				$path_to_cert = realpath($path_to_cert);
@@ -246,7 +252,7 @@ class Curl {
 		}
 		else
 		{
-			$this->option(CURLOPT_SSL_VERIFYPEER, FALSE);
+			$this->option(CURLOPT_SSL_VERIFYPEER, $this->verifpeer);
 			$this->option(CURLOPT_SSL_VERIFYHOST, $verify_host);
 		}
 		return $this;
