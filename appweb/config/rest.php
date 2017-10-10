@@ -43,7 +43,7 @@ $config['rest_default_format'] = 'json';
 | REST_Controller initialization.
 |
 */
-$config['rest_supported_formats'] = [
+$config['rest_supported_formats'] = array(
     'json',
     'array',
     'csv',
@@ -52,7 +52,7 @@ $config['rest_supported_formats'] = [
     'php',
     'serialized',
     'xml',
-];
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -556,13 +556,13 @@ $config['check_cors'] = FALSE;
 | If using CORS checks, set the allowable headers here
 |
 */
-$config['allowed_cors_headers'] = [
+$config['allowed_cors_headers'] = array(
   'Origin',
   'X-Requested-With',
   'Content-Type',
   'Accept',
   'Access-Control-Request-Method'
-];
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -572,14 +572,14 @@ $config['allowed_cors_headers'] = [
 | If using CORS checks, you can set the methods you want to be allowed
 |
 */
-$config['allowed_cors_methods'] = [
+$config['allowed_cors_methods'] = array(
   'GET',
   'POST',
   'OPTIONS',
   'PUT',
   'PATCH',
   'DELETE'
-];
+);
 
 /*
 |--------------------------------------------------------------------------
