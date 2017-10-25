@@ -23,7 +23,7 @@ class Curl {
 	public $error_code;             // Error code returned as an int
 	public $error_string;           // Error message returned as a string
 	public $info;                   // Returned after request (elapsed time, etc)
-	public $verifpeer = TRUE;       // must verify perr certificate or not, false for auto sing
+	public $verifhost = TRUE;       // must verify perr certificate or not, false for auto sing
 
 	function __construct($url = '')
 	{
@@ -241,10 +241,11 @@ class Curl {
 
 	public function ssl($verify_peer = TRUE, $verify_host = 2, $path_to_cert = NULL)
 	{
-		if ($verify_peer AND $this->verifpeer)
+		if ($verify_peer AND $this->verifhost)
 		{
 			$this->option(CURLOPT_SSL_VERIFYPEER, $this->verifpeer);
-			$this->option(CURLOPT_SSL_VERIFYHOST, $verify_host);
+			if( $this->verifhost )
+				$this->option(CURLOPT_SSL_VERIFYHOST, $verify_host);
 			if (isset($path_to_cert)) {
 				$path_to_cert = realpath($path_to_cert);
 				$this->option(CURLOPT_CAINFO, $path_to_cert);
