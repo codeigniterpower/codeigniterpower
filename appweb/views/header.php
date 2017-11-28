@@ -11,7 +11,7 @@ $this->load->helper('html');
 		echo link_tag($linkpickathingcss);		// link css estilo apariencia para poder llenar los combos select con input search
 		echo link_tag($vanilladatatablescss);		// link css estilo apariencia para poder llenar los combos select con input search
 		echo script_tag($linkbrownavdecsjs);
-		echo script_tag($linkdatepickerugl);	// comportamiento de selector de fechas sin usar jquery, 1005 compatible con cualqueir navegador
+		echo script_tag($linkdatepickerurl);	// comportamiento de selector de fechas sin usar jquery, 1005 compatible con cualqueir navegador
 	echo '</head>', PHP_EOL;
 	?>
 	<body onload = 'checkAvailable()' >
