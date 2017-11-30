@@ -6,10 +6,10 @@ $this->load->helper('html');
 	echo '<head>', PHP_EOL;
 	include FCPATH.APPPATH.config_item('defsview').'/headersets.php';
 		echo meta($meta);
-		echo link_tag($linkdefcss);
 		echo link_tag($linkappcss);		// link css estilo apariencia sin especificar clases en cada tag
 		echo link_tag($linkpickathingcss);		// link css estilo apariencia para poder llenar los combos select con input search
 		echo link_tag($vanilladatatablescss);		// link css estilo apariencia para poder llenar los combos select con input search
+		echo script_tag($linkappcssjs);
 		echo script_tag($linkbrownavdecsjs);
 		echo script_tag($linkdatepickerurl);	// comportamiento de selector de fechas sin usar jquery, 1005 compatible con cualqueir navegador
 	echo '</head>', PHP_EOL;
