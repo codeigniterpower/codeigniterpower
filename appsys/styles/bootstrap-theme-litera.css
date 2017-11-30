@@ -347,6 +347,15 @@ select {
   text-transform: none;
 }
 
+
+input {
+  line-height: 1.5;
+  color: #495057;
+  background-image: none;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 button,
 html [type="button"],
 [type="reset"],
