@@ -763,6 +763,23 @@ class CI_Session {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Unescape slashes
+	 *
+	 * This function converts any slash markers back into actual slashes
+	 *
+	 * @access	private
+	 */
+	function _unescape_slashes(&$val, $key)
+	{
+		if (is_string($val))
+		{
+			$val= str_replace('{{slash}}', '\\', $val);
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Garbage collection
 	 *
 	 * This deletes expired session rows from database

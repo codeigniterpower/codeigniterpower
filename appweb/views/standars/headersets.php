@@ -14,12 +14,9 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		$metaline6 = array('name' => 'pragma', 'content' => 'no-cache', 'type' => 'equiv');
 		$metalines = array('name' => 'Content-Security-Policy', 'content' => '');
 
-		$linkdefcss = array('type'=>$typcs,'rel'=>'stylesheet','href' => $pathcss.'defaultstyle.css');
-
-		$linkappcss = array('type'=>$typcs,'rel'=>'stylesheet','href' => $pathcss.'bootstrap.css?'.time()); // script de css sin tener que especificar clases en cada tag
-		$linkbrownavdecsjs = array('type'=>$typjs,'src' => $pathjsc.'brownavdec.js',);
-		$linkvalidaformsjs = array('type'=>$typjs,'src' => $pathjsc.'valida.js',);
-		$linkdatepickerugl = array('type'=>$typjs,'src' => $pathjsc.'datetimepicker.js?'.time());
+		$linkappcss = array('type'=>$typcs,'rel'=>'stylesheet','href' => $pathcss.'cibootstrap.css?'.time()); // script de css sin tener que especificar clases en cada tag
+		$linkappcssjs = array('type'=>$typjs,'src' => $pathjsc.'cibootstrap.js?'.time()); // script de css sin tener que especificar clases en cada tag
+		$linkdatepickerurl = array('type'=>$typjs,'src' => $pathjsc.'datetimepicker.js?'.time());
 		$linkpickathingcss = array('type'=>$typcs,'rel'=>'stylesheet','href' => $pathcss.'pickathing.css?'.time()); // script de css para selects combos pero con inputs search
 		$vanilladatatablescss = array('type'=>$typcs,'rel'=>'stylesheet','href' => $pathcss.'vanilla-dataTables.css?'.time()); // script de css para vanilla data tables
 
