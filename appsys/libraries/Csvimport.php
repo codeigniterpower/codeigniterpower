@@ -26,6 +26,12 @@ class Csvimport {
     private $delimiter = ",";
     private $detect_line_endings = FALSE;
 
+    function __construct()
+    {
+        $this->_ci = & get_instance();
+        log_message('debug', 'CsvImport Class Initialized');
+    }
+
    /**
      * Function that parses a CSV file and returns results
      * as an array.
