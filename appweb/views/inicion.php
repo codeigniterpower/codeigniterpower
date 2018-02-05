@@ -1,7 +1,5 @@
 	<h1>Welcome/Bienvenido a VNX Codeigniter</h1>
-	<div id="body">
-	</div>
-	<p class="footer">Ejemplo de tabla, con datatables y campos input con selects:</p>
+	<p >Ejemplo de tabla, con datatables y campos input con selects:</p>
 	<?php
 		echo br().PHP_EOL;  // genera neuva linea en codigo html al navegador
 		echo form_fieldset('titulo marco',array('class'=>'containerin ') );
@@ -30,4 +28,3 @@
 		echo form_submit('nombreboton', 'boton enviar', 'class="btn-primary btn"');
 		echo form_fieldset_close() . PHP_EOL;
 	?>
-	</div>
