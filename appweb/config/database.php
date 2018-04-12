@@ -63,10 +63,10 @@ $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['stricton'] = FALSE;
 
-$db['odbc']['hostname'] = 'localhost-odbc'; // name of the odbc in running webserver machine
+$db['odbc']['hostname'] = 'localhost-odbc'; // if fail use> DRIVER=FreeTDS;SERVER=127.0.0.1;UID=sa;PWD=sa;DATABASE=dbdemo;TDS_Version=5.0;Port=2638;
 $db['odbc']['username'] = 'sa';
 $db['odbc']['password'] = 'sa';
-$db['odbc']['database'] = 'localhost-odbc';
+$db['odbc']['database'] = 'localhostdbodbc';
 $db['odbc']['dbdriver'] = 'odbc';
 $db['odbc']['dbprefix'] = ''; /* do not use with odbc, prefixed in each sql db*/
 $db['odbc']['pconnect'] = TRUE;
