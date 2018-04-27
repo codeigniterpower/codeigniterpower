@@ -281,11 +281,12 @@ class CI_Table {
 	 *
 	 * @access	public
 	 * @param	string
-	 * @return	void
+	 * @return	CI_Table
 	 */
 	function set_caption($caption)
 	{
 		$this->caption = $caption;
+		return $this;
 	}
 
 	// --------------------------------------------------------------------
