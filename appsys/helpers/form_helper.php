@@ -436,9 +436,9 @@ if ( ! function_exists('form_dropdown'))
 		$namejs = (strpos($name, '[]') === FALSE) ? $name : substr($name, 0, -2);
 		// should be included the search feature and bootstrap reponsive?
 		if ( $searchbox && $pickathing && ! $selectr)
-			$form .= '<script src="'.base_url() . APPSYS . 'scripts/pickathing.js"></script><script>var select'.$namejs.' = new Pickathing(\''.$idname.'\', true);</script>'.PHP_EOL;
+			$form .= '<script src="'.base_url() .  'appsys/scripts/pickathing.js"></script><script>var select'.$namejs.' = new Pickathing(\''.$idname.'\', true);</script>'.PHP_EOL;
 		else if ( $searchbox && $selectmulti)
-			$form .= '<script src="'.base_url() . APPSYS . 'scripts/selectmulti.js"></script><script>var select'.$namejs.' = new Selectr(document.getElementById(\''.$idname.'\'));</script>'.PHP_EOL;
+			$form .= '<script src="'.base_url() .  'appsys/scripts/selectmulti.js"></script><script>var select'.$namejs.' = new Selectr(document.getElementById(\''.$idname.'\'));</script>'.PHP_EOL;
 
 		return $form;
 	}
