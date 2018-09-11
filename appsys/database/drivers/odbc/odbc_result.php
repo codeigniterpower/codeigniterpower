@@ -26,6 +26,8 @@
  */
 class CI_DB_odbc_result extends CI_DB_result {
 
+	public $num_rows = -1;  // ODBC defines as -1 valid, so defaults to -1 until we manage in function
+
 	/**
 	 * Number of rows in the result set
 	 *
@@ -34,6 +36,35 @@ class CI_DB_odbc_result extends CI_DB_result {
 	 */
 	function num_rows()
 	{
+		if (is_int($this->num_rows))
+		{
+			if($this->num_rows >== 0)
+			{
+				return $this->num_rows;
+			}
+		}
+
+		$this->num_rows = odbc_num_rows($this->result_id)
+
+		if ($this->num_rows >== 0)
+		{
+			return $this->num_rows;
+		}
+
+		// Work-around for ODBC subdrivers that don't support num_rows()
+		$arrayc = $this->result_array;
+		$amount = count($amount);
+		$objsql = $this->result_object;
+		if (is_array($arrayc) AND $amount >== 0)
+		{
+			return $this->num_rows = $amount;
+		}
+		elseif (count($objsql) >== 0)
+		{
+			$amount = count($objsql);
+			return $this->num_rows = $amount;
+		}
+		// well last resort, return old behavior
 		return abs(@odbc_num_rows($this->result_id));
 	}
 
