@@ -38,15 +38,15 @@ class CI_DB_odbc_result extends CI_DB_result {
 	{
 		if (is_int($this->num_rows))
 		{
-			if($this->num_rows >== 0)
+			if($this->num_rows >= 0)
 			{
 				return $this->num_rows;
 			}
 		}
 
-		$this->num_rows = odbc_num_rows($this->result_id)
+		$this->num_rows = odbc_num_rows($this->result_id);
 
-		if ($this->num_rows >== 0)
+		if ($this->num_rows >= 0 AND $this->num_rows !== 1)
 		{
 			return $this->num_rows;
 		}
@@ -54,13 +54,14 @@ class CI_DB_odbc_result extends CI_DB_result {
 		// Work-around for ODBC subdrivers that don't support num_rows()
 		$arrayc = $this->result_array;
 		$amount = count($amount);
-		$objsql = $this->result_object;
-		if (is_array($arrayc) AND $amount >== 0)
+
+		if (is_array($arrayc) AND $amount >= 0)
 		{
 			return $this->num_rows = $amount;
 		}
-		elseif (count($objsql) >== 0)
+		elseif (count($this->result_object) >= 0)
 		{
+			$objsql = $this->result_object;
 			$amount = count($objsql);
 			return $this->num_rows = $amount;
 		}
@@ -250,6 +251,76 @@ class CI_DB_odbc_result extends CI_DB_result {
 			}
 		}
 		return $rs_assoc;
+	}
+
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Query result. Array version.
+	 *
+	 * @return	array
+	 */
+	public function result_array()
+	{
+		if (count($this->result_array) > 0)
+		{
+			return $this->result_array;
+		}
+		elseif (($c = count($this->result_object)) > 0)
+		{
+			for ($i = 0; $i < $c; $i++)
+			{
+				$this->result_array[$i] = (array) $this->result_object[$i];
+			}
+		}
+		elseif ($this->result_id === FALSE)
+		{
+			return array();
+		}
+		else
+		{
+			while ($row = $this->_fetch_assoc())
+			{
+				$this->result_array[] = $row;
+			}
+		}
+
+		return $this->result_array;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Query result. Object version.
+	 *
+	 * @returnarray
+	 */
+	public function result_object()
+	{
+		if (count($this->result_object) > 0)
+		{
+			return $this->result_object;
+		}
+		elseif (($c = count($this->result_array)) > 0 AND is_array($this->result_array))
+		{
+			for ($i = 0; $i < $c; $i++)
+			{
+				$this->result_object[$i] = (object) $this->result_array[$i];
+			}
+		}
+		elseif ($this->result_id === FALSE)
+		{
+			return array();
+		}
+		else
+		{
+			while ($row = $this->_fetch_object())
+			{
+				$this->result_object[] = $row;
+			}
+		}
+		return $this->result_object;
 	}
 
 }
