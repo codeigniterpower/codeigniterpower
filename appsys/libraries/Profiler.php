@@ -2,14 +2,14 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.3.3 or newer
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. 2016 lionell
  * @license		http://codeigniter.com/user_guide/license.html
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * @link		https://codeigniterpower.github.io/codeigniter-profiler/
+ * @since		Version 2.0
  * @filesource
  */
 
@@ -28,7 +28,7 @@
  * @subpackage	Libraries
  * @category	Libraries
  * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/general/profiling.html
+ * @link		https://codeigniterpower.github.io/codeigniter-profiler/
  */
 class CI_Profiler extends CI_Loader {
 
@@ -85,8 +85,6 @@ class CI_Profiler extends CI_Loader {
 				$this->_compile_{$section} = TRUE;
 			}
 		}
-
-		$this->set_sections($config);
 
 		// Strange hack to get access to the current
 		// vars in the CI_Loader class.
@@ -176,7 +174,7 @@ class CI_Profiler extends CI_Loader {
 			{
 				if ($cobject instanceof CI_DB)
 				{
-					$dbs[get_class($this->CI).':$'.$name] = $cobject;
+					$dbs[get_class($this->CI).'->'.$name] = $cobject;
 				}
 				elseif ($cobject instanceof CI_Model)
 				{
@@ -184,7 +182,7 @@ class CI_Profiler extends CI_Loader {
 					{
 						if ($mobject instanceof CI_DB)
 						{
-							$dbs[get_class($cobject).':$'.$mname] = $mobject;
+							$dbs[get_class($cobject).'->'.$mname] = $mobject;
 						}
 					}
 				}
@@ -193,7 +191,7 @@ class CI_Profiler extends CI_Loader {
 
 		if (count($dbs) == 0)
 		{
-			return $this->CI->lang->line('profiler_no_db');
+			return $this->CI->lang->line('profiler_no_db'); // to get db access must be public instance
 		}
 
 		// Load the text helper so we can highlight the SQL
@@ -217,7 +215,7 @@ class CI_Profiler extends CI_Loader {
 					$val = str_replace($bold, '<b>'. $bold .'</b>', $val);
 				}
 
-				$output[][$time] = '/*('.$controler.':'.$db->database.')*/ ' . $val;
+				$output[][$time] = '/*('.$controler.',Scheme:'.$db->database.')*/ ' . $val;
 			}
 
 		}
@@ -550,8 +548,6 @@ class CI_Profiler extends CI_Loader {
 			{
 				if ($log['type'] == 'log')
 				{
-					$this->CI->load->library('Vd');
-//					$logs['console'][$key]['data'] = Vd::dump($log['data'], '', TRUE);
 					$logs['console'][$key]['data'] = print_r($log['data'], true);
 				}
 				elseif ($log['type'] == 'memory')
@@ -587,7 +583,7 @@ class CI_Profiler extends CI_Loader {
 					if (is_array($val) || is_object($val))
 					{
 						if (is_object($val))
-							$output[$key] = json_encode($val); // revise 
+							$output[$key] = json_decode(json_encode($val), true);
 						else
 							$output[$key] = htmlspecialchars(stripslashes(print_r($val, true)));
 					}
