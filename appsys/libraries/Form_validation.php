@@ -228,6 +228,20 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Get Array of Error Messages
+	 *
+	 * Returns the error messages as an array
+	 *
+	 * @return	array
+	 */
+	public function error_array()
+	{
+		return $this->_error_array;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Error String
 	 *
 	 * Returns the error messages as a string, wrapped in the error delimiters
@@ -948,7 +962,7 @@ class CI_Form_validation {
 
 		return ($str !== $field) ? FALSE : TRUE;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -963,7 +977,7 @@ class CI_Form_validation {
 	{
 		list($table, $field)=explode('.', $field);
 		$query = $this->CI->db->limit(1)->get_where($table, array($field => $str));
-		
+
 		return $query->num_rows() === 0;
     }
 
@@ -1053,7 +1067,10 @@ class CI_Form_validation {
 	 */
 	public function valid_email($str)
 	{
-		return ( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
+		if ( trim($str) != '' )
+			return ( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
+		else
+			return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -1069,7 +1086,10 @@ class CI_Form_validation {
 	{
 		if (strpos($str, ',') === FALSE)
 		{
-			return $this->valid_email(trim($str));
+			if ( trim($str) != '' )
+				return $this->valid_email(trim($str));
+			else
+				return FALSE;
 		}
 
 		foreach (explode(',', $str) as $email)

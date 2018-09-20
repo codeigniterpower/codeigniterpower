@@ -78,6 +78,20 @@
 
 /*
  * ------------------------------------------------------
+ *  Detected the timezone, due only debian's does not have the warning message (php >> 5.4+)
+ * ------------------------------------------------------
+ */
+	// PHP 5.4+ on others rather thant debian will complain without this
+	if (version_compare(PHP_VERSION, '5.3.11') >= 0)
+	{
+		if (ini_get('date.timezone') == '')
+		{
+			date_default_timezone_set('GMT');
+		}
+	}
+
+/*
+ * ------------------------------------------------------
  *  Set the subclass_prefix
  * ------------------------------------------------------
  *

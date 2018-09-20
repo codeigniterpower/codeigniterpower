@@ -253,6 +253,23 @@ class CI_DB_odbc_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Determines if a query is a "write" type.
+	 *
+	 * @param	string An SQL query string
+	 * @return	bool
+	 */
+	public function is_write_type($sql)
+	{
+		if (preg_match('#^(INSERT|UPDATE).*RETURNING\s.+(\,\s?.+)*$#i', $sql))
+		{
+			return FALSE;
+		}
+		return parent::is_write_type($sql);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Escape String
 	 *
 	 * @access	public
@@ -483,11 +500,11 @@ class CI_DB_odbc_driver extends CI_DB {
 	{
 		if ( ! is_array($tables))
 		{
-			return strstr($tables, ',') ? '('.$tables.')' : $tables; // PICCORO retorna una tbla solo si no es array
-    		}
+			return strstr($tables, ',') ? ' '.$tables.' ' : $tables; // PICCORO retorna una tbla solo si no es array
+    	}
 		else
 		{
-			return count($tables) > 1 ? '('.implode(', ', $tables).')' : end($tables);
+			return count($tables) > 1 ? ' '.implode(', ', $tables).' ' : end($tables);
 		}
 	}
 

@@ -10,8 +10,11 @@ For that, have some additions in the pgsql and odbc drivers, as stetics ajust on
 
 ## FEATURES
 
+* Core: autodetection of localhost security denied and locale settings to GMT if not set datetime zone
 * Bootstrap: css autoiniciado en cada tag html sin necesidad de usar clases especificas
 * Helpers: el tag de tabla y de select adiciona datatables y inputsearch sin usar jquery
+* Libraries: nuevas librerias, CSV importer, Date para multiconversiones y Console para impresiones 
+* Forms: los campos inputs autodetectan parametros y autogeneran un id siempre
 * Paginacion: se agrega posibilidad de indicar inicio y final sobreescrito a pagina 1 y pagina final
 * PGSQL: Soporte postgresql mejorado (en progreso) con integracion CRUD
 * Esquemas: Posibilidad de usar esquemas parciales en postgresql, con active recors (solo falla la verificacion si tabla existe)
@@ -32,8 +35,23 @@ The software change is not just for "security", but because the hardware forces 
 In many places old versions of php are used but with their security patches,
 So that updating is an excuse to boost scheduled obsolescence.
 
-# Contact, contributions and info
+NOTE: our date time picker are the most older due renders! faster! in older browsers!
+
+# Contact, contributions and thanks
 
 Please if u are a mocosoft dont mess up, and go off!
+
+* Teng-Yong Ng datetimepicker http://www.rainforestnet.com/datetimepicker/datetimepicker-terms.htm commit (50e42e36b57ab0b957df7e42fd7c2cf3568e1b6e)
+* Vojtěch Klos (VojtechKlos) helps me implementing https://github.com/Symphony9/pickathing in comboboxes commit (b7c6ae9d631f74516799885a60bf21865407456c)
+* Karl (Mobius1) for their great https://github.com/Mobius1/Vanilla-DataTables in tables class (outdated) (26dc09766e5ef2e92cb9aca929a9f729e2509375)
+* Spir https://github.com/Spir/vd-dump for var_dump re-implementation commit (daeccba018dd499a7c5a932987e4cc78bee1c212)
+* Lonnie Ezell (lonnieezell)for their https://github.com/lonnieezell/codeigniter-forensics to enhanced profiler (ee9eacc3a3868af0ab6e854a5a8e983a66553f70)
+* Brad Stinson (bradstinson) for their https://github.com/bradstinson/csv-import for CVS import (pending)
+
+Planned:
+
+* https://github.com/bradstinson/httpful to sustitute the cURL library implementation
+* https://github.com/chriskacerguis/codeigniter-restserver REST server for CI 2.X and not 3.X
+* https://github.com/chriskacerguis/codeigniter-restclient REST client for CI 2.X and not 3.X
 
 We try to keep (and also track) as many updates and changes as posibles from version 3 of codeigniter, 

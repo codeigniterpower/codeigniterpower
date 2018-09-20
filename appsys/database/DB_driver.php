@@ -38,7 +38,7 @@ class CI_DB_driver {
 	var $dbprefix		= '';
 	var $char_set		= 'utf8';
 	var $dbcollat		= 'utf8_general_ci';
-	var $autoinit		= TRUE; // Whether to automatically initialize the DB
+	var $autoinit		= FALSE; // Whether to automatically initialize the DB
 	var $swap_pre		= '';
 	var $port			= '';
 	var $pconnect		= FALSE;
@@ -88,6 +88,7 @@ class CI_DB_driver {
 			}
 		}
 
+		$this->initialize();
 		log_message('debug', 'Database Driver Class Initialized');
 	}
 
@@ -1296,9 +1297,9 @@ class CI_DB_driver {
 			// Does the first segment of the exploded item match
 			// one of the aliases previously identified?  If so,
 			// we have nothing more to do other than escape the item
-			if (in_array($parts[0], $this->ar_aliased_tables))
+			if ( ! empty($this->qb_aliased_tables) && in_array($parts[0], $this->ar_aliased_tables) )
 			{
-				if ($protect_identifiers === TRUE)
+				if ($protect_identifiers === TRUE) // if qb_aliased_tables empty workaround the CI bug (#2284), backported form CI 3.0.1
 				{
 					foreach ($parts as $key => $val)
 					{

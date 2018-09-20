@@ -1,8 +1,3 @@
-/** homepage: https://github.com/Symphony9/pickathing/
- *  multiselect are pending : https://github.com/Symphony9/pickathing/issues/2
- * headerset automatically include the required css, 
- * formhelper was altered to generated good uni-select combobox input
- */
 var Pickathing = function Pickathing(elementId, hasSearch, options) {
 	this.transTimeout;
 	this.transTimeoutDelay = 201;

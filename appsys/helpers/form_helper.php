@@ -44,10 +44,8 @@ if ( ! function_exists('form_open'))
 	{
 		$CI =& get_instance();
 
-		if ($attributes == '')
-		{
-			$attributes = 'method="post"';
-		}
+		// If no action is provided then set to the current url
+		$action OR $action = $CI->config->site_url($CI->uri->uri_string());
 
 		// If an action is not a full URL then turn it into one
 		if ($action && strpos($action, '://') === FALSE)
@@ -55,14 +53,24 @@ if ( ! function_exists('form_open'))
 			$action = $CI->config->site_url($action);
 		}
 
-		// If no action is provided then set to the current url
-		$action OR $action = $CI->config->site_url($CI->uri->uri_string());
+		$attributes = _attributes_to_string($attributes);
 
-		$form = '<form action="'.$action.'"';
+		if ($attributes == '')
+		{
+			$attributes = ' method="post"';
+		}
 
-		$form .= _attributes_to_string($attributes, TRUE);
+		if (stripos($attributes, 'method=') === FALSE)
+		{
+			$attributes .= ' method="post"';
+		}
 
-		$form .= '>';
+		if (stripos($attributes, 'accept-charset=') === FALSE)
+		{
+			$attributes .= ' accept-charset="'.strtolower(config_item('charset')).'"';
+		}
+
+		$form = '<form action="'.$action.'" '.$attributes.'>';
 
 		// Add CSRF field if enabled, but leave it out for GET requests and requests to external websites	
 		if ($CI->config->item('csrf_protection') === TRUE AND ! (strpos($action, $CI->config->base_url()) === FALSE OR strpos($form, 'method="get"')))	
@@ -174,7 +182,36 @@ if ( ! function_exists('form_input'))
 {
 	function form_input($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('type' => 'text', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
+
+		if ( ! is_array($data))
+		{
+			$nameinput = $data;
+			$data = array('name' => $data);
+		}
+		else
+		{
+			if ( ! array_key_exists('name', $data) )
+			{
+				$nameinṕut = 'input'.rand(100,999);
+				$data['name'] = $nameinput;
+			}
+			else
+			{
+				$nameinput = $data['name'];
+			}
+		}
+
+		$defaults = array('type' => 'text', 'name' => $nameinput, 'value' => $value);
+
+		if( is_array($extra) )
+		{
+			$extrax = '';
+			foreach( $extra as $keyx => $valx )
+			{
+				$extrax .= ' '.$keyx.'="'.$valx.'" ';
+			}
+			$extra = $extrax;
+		}
 
 		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
 	}
@@ -224,10 +261,22 @@ if ( ! function_exists('form_upload'))
 {
 	function form_upload($data = '', $value = '', $extra = '')
 	{
+
 		if ( ! is_array($data))
 		{
 			$data = array('name' => $data);
 		}
+		else
+		{
+			$nameda = 'input'.rand(100,999);
+			if ( ! array_key_exists('name', $data) )
+				$data['name'] = $nameda;
+			else if ( $data['name'] == '' )
+				$data['name'] = $nameda;
+		}
+
+		if ( ! array_key_exists('id', $data) )
+			$data['id'] = $data['name'];
 
 		$data['type'] = 'file';
 		return form_input($data, $value, $extra);
@@ -324,6 +373,7 @@ if ( ! function_exists('form_dropdown'))
 			}
 		}
 
+		$extra = _attributes_to_string($extra);
 		if ($extra != '') $extra = ' '.$extra;
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
@@ -386,9 +436,9 @@ if ( ! function_exists('form_dropdown'))
 		$namejs = (strpos($name, '[]') === FALSE) ? $name : substr($name, 0, -2);
 		// should be included the search feature and bootstrap reponsive?
 		if ( $searchbox && $pickathing && ! $selectr)
-			$form .= '<script src="'.base_url() . APPPATH . 'scripts/pickathing.js"></script><script>var select'.$namejs.' = new Pickathing(\''.$idname.'\', true);</script>'.PHP_EOL;
+			$form .= '<script src="'.base_url() .  'appsys/scripts/pickathing.js"></script><script>var select'.$namejs.' = new Pickathing(\''.$idname.'\', true);</script>'.PHP_EOL;
 		else if ( $searchbox && $selectmulti)
-			$form .= '<script src="'.base_url() . APPPATH . 'scripts/selectmulti.js"></script><script>var select'.$namejs.' = new Selectr(document.getElementById(\''.$idname.'\'));</script>'.PHP_EOL;
+			$form .= '<script src="'.base_url() .  'appsys/scripts/selectmulti.js"></script><script>var select'.$namejs.' = new Selectr(document.getElementById(\''.$idname.'\'));</script>'.PHP_EOL;
 
 		return $form;
 	}
@@ -480,9 +530,22 @@ if ( ! function_exists('form_submit'))
 {
 	function form_submit($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('type' => 'submit', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
-		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
+		if ( ! is_array($data))
+		{
+			$data = array('name' => $data); // no care if submit no have name, but id must import
+		}
+
+		$nameda = 'input'.rand(100,999);
+		if ( ! array_key_exists('name', $data) )
+			$data['name'] = $nameda;
+
+		if ( ! array_key_exists('id', $data) )
+			$data['id'] = $data['name'];
+
+		$data['type'] = 'submit';
+
+		return form_input($data, $value, $extra);
 	}
 }
 
@@ -501,9 +564,21 @@ if ( ! function_exists('form_reset'))
 {
 	function form_reset($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('type' => 'reset', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
+		if ( ! is_array($data))
+		{
+			$data = array('name' => $data); // no care if submit no have name, but id must import
+		}
 
-		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
+		$nameda = 'input'.rand(100,999);
+		if ( ! array_key_exists('name', $data) )
+			$data['name'] = $nameda;
+
+		if ( ! array_key_exists('id', $data) )
+			$data['id'] = $data['name'];
+
+		$data['type'] = 'reset';
+
+		return form_input($data, $value, $extra);
 	}
 }
 

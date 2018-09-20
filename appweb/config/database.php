@@ -46,14 +46,14 @@
 */
 
 $active_group = 'default';
-$active_record = TRUE;
+$active_record = TRUE; /* only works well with mysql*/
 
-$db['default']['hostname'] = '37.10.254.20';
-$db['default']['username'] = 'sistemas';
-$db['default']['password'] = 'sistemas.1.ve';
-$db['default']['database'] = 'sistemaasistenciaweb';
+$db['default']['hostname'] = 'localhost';
+$db['default']['username'] = 'root';
+$db['default']['password'] = 'root.1';
+$db['default']['database'] = 'appdb';
 $db['default']['dbdriver'] = 'postgre';
-$db['default']['dbprefix'] = ''; /*blanks means use public , catalogo not use that due xtreme security */
+$db['default']['dbprefix'] = ''; /*blanks means use public*/
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;
 $db['default']['cache_on'] = FALSE;
@@ -61,24 +61,22 @@ $db['default']['cachedir'] = '';
 $db['default']['char_set'] = 'utf8';
 $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
-$db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
-$db['saint']['hostname'] = '37.10.254.100';
-$db['saint']['username'] = 'sa';
-$db['saint']['password'] = 'sa';
-$db['saint']['database'] = 'XX99';
-$db['saint']['dbdriver'] = 'odbc';
-$db['saint']['dbprefix'] = ''; /*blanks means use public , catalogo not use that due xtreme security */
-$db['saint']['pconnect'] = TRUE;
-$db['saint']['db_debug'] = TRUE;
-$db['saint']['cache_on'] = FALSE;
-$db['saint']['cachedir'] = '';
-$db['saint']['char_set'] = 'utf8';
-$db['saint']['dbcollat'] = 'utf8_general_ci';
-$db['saint']['swap_pre'] = '';
-$db['saint']['autoinit'] = TRUE;
-$db['saint']['stricton'] = FALSE;
+$db['odbc']['hostname'] = 'localhost-odbc'; // if fail use> DRIVER=FreeTDS;SERVER=127.0.0.1;UID=sa;PWD=sa;DATABASE=dbdemo;TDS_Version=5.0;Port=2638;
+$db['odbc']['username'] = 'sa';
+$db['odbc']['password'] = 'sa';
+$db['odbc']['database'] = 'localhostdbodbc';
+$db['odbc']['dbdriver'] = 'odbc';
+$db['odbc']['dbprefix'] = ''; /* do not use with odbc, prefixed in each sql db*/
+$db['odbc']['pconnect'] = TRUE;
+$db['odbc']['db_debug'] = TRUE;
+$db['odbc']['cache_on'] = FALSE;
+$db['odbc']['cachedir'] = '';
+$db['odbc']['char_set'] = 'utf8';
+$db['odbc']['dbcollat'] = '';
+$db['odbc']['swap_pre'] = '';
+$db['odbc']['stricton'] = FALSE;
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */

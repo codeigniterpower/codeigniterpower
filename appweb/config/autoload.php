@@ -49,7 +49,7 @@ $autoload['packages'] = array();
 |
 | Prototype:
 |
-|	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
+|	$autoload['libraries'] = array('session', 'xmlrpc'); // please for database, use autoinit parameter, dont mess here!
 */
 
 $autoload['libraries'] = array();
