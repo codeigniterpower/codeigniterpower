@@ -441,7 +441,7 @@ window.onload = function() {
 	<!-- Files -->
 	<?php if (isset($sections['files'])) :?>
 		<div id="ci-profiler-files" class="ci-profiler-box" style="display: none">
-			<h2>LOAD-CARGA</h2>
+			<h2>LOAD</h2>
 
 			<?php if (is_array($sections['files'])) : ?>
 
