@@ -53,7 +53,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 
 		// Work-around for ODBC subdrivers that don't support num_rows()
 		$arrayc = $this->result_array;
-		$amount = count($amount);
+		$amount = count($arrayc);
 
 		if (is_array($arrayc) AND $amount >= 0)
 		{
