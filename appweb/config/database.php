@@ -55,7 +55,7 @@ $db['default']['database'] = 'appdb';
 $db['default']['dbdriver'] = 'postgre';
 $db['default']['dbprefix'] = ''; /*blanks means use public*/
 $db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = TRUE;
+$db['default']['db_debug'] = (ENVIRONMENT !== 'production');
 $db['default']['cache_on'] = FALSE;
 $db['default']['cachedir'] = '';
 $db['default']['char_set'] = 'utf8';
@@ -70,7 +70,7 @@ $db['odbc']['database'] = 'localhostdbodbc';
 $db['odbc']['dbdriver'] = 'odbc';
 $db['odbc']['dbprefix'] = ''; /* do not use with odbc, prefixed in each sql db*/
 $db['odbc']['pconnect'] = TRUE;
-$db['odbc']['db_debug'] = TRUE;
+$db['odbc']['db_debug'] = (ENVIRONMENT !== 'production');
 $db['odbc']['cache_on'] = FALSE;
 $db['odbc']['cachedir'] = '';
 $db['odbc']['char_set'] = 'utf8';
