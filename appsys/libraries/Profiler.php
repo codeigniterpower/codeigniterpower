@@ -675,7 +675,7 @@ class CI_Profiler extends CI_Loader {
 			}
 		}
 
-		return $this->CI->load->view('../../' . SYSDIR . '/places/profiler_template', array('sections' => $this->_sections), true);
+		return $this->CI->load->view( 'profiler', array('sections' => $this->_sections), true);
 	}
 
 }
