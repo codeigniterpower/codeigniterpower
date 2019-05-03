@@ -192,7 +192,7 @@ if ( ! function_exists('form_input'))
 		{
 			if ( ! array_key_exists('name', $data) )
 			{
-				$nameinṕut = 'input'.rand(100,999);
+				$nameinput = 'input'.rand(100,999);
 				$data['name'] = $nameinput;
 			}
 			else
