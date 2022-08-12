@@ -44,7 +44,7 @@ class CI_Table {
 	public function __construct()
 	{
 		log_message('debug', "Table Class Initialized");
-		$this->tableid = 'table'.rand(100,999);
+		$this->tableid = 'table'.rand(10000,99999);
 	}
 
 	// --------------------------------------------------------------------
