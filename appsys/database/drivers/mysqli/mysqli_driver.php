@@ -313,7 +313,10 @@ class CI_DB_mysqli_driver extends CI_DB {
 
 		if (function_exists('mysqli_real_escape_string') AND is_object($this->conn_id))
 		{
-			$str = mysqli_real_escape_string($this->conn_id, $str);
+			if (is_resource($this->conn_id) OR is_object($this->conn_id))
+				$str = mysqli_real_escape_string($this->conn_id, $str);
+			else
+				$str = addslashes($str);
 		}
 		else
 		{
@@ -451,7 +454,8 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	function _error_message()
 	{
-		return mysqli_error($this->conn_id);
+		if (is_resource($this->conn_id) OR is_object($this->conn_id))
+			return mysqli_error($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -464,7 +468,8 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	function _error_number()
 	{
-		return mysqli_errno($this->conn_id);
+		if (is_resource($this->conn_id) OR is_object($this->conn_id))
+			return mysqli_errno($this->conn_id);
 	}
 
 	// --------------------------------------------------------------------
