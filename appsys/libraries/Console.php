@@ -83,7 +83,7 @@ class Console {
 		}
 		
 		$log_item = array(
-			'data' => $data,
+			'data' => print_r($data,true),
 			'type' => 'log'
 		);
 		

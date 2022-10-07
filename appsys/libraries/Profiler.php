@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. 2016 lionell
+ * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. 2016 lionell, 2020 PICCORO Lenz McKAY
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		https://codeigniterpower.github.io/codeigniter-profiler/
  * @since		Version 2.0
@@ -59,7 +59,7 @@ class CI_Profiler extends CI_Loader {
 
 	public function __construct($config = array())
 	{
-		$this->CI =& get_instance();
+		$this->CI = &get_instance();
 		$this->CI->load->language('profiler');
 
 		// If the config file has a query_toggle_count,
@@ -215,7 +215,7 @@ class CI_Profiler extends CI_Loader {
 					$val = str_replace($bold, '<b>'. $bold .'</b>', $val);
 				}
 
-				$output[][$time] = '/*('.$controler.',Scheme:'.$db->database.')*/ ' . $val;
+				$output[][$time] = '/*('.$controler.',Scheme:'.$db->database.')*/ ' . $val; // it show in comment for SQL copy where was executed the query to get more easy in big projects where is the issue, if some filters where apply
 			}
 
 		}
@@ -251,7 +251,7 @@ class CI_Profiler extends CI_Loader {
 			$this->CI->load->model('Eloquent/Assets/Action');
 		}
 
-		if ( ! class_exists('Illuminate\Database\Capsule\Manager')) { // TODO ruta iluminate y separador OS linux only
+		if ( ! class_exists('Illuminate\Database\Capsule\Manager', FALSE)) {
 			$output = 'Illuminate\Database has not been loaded.';
 		} else {
 			// Load the text helper so we can highlight the SQL
@@ -330,9 +330,12 @@ class CI_Profiler extends CI_Loader {
 
 		$get = $this->CI->input->get();
 
-		if (count($get) == 0 || $get === false)
+		if ( !is_array($get) )
 		{
-			$output = $this->CI->lang->line('profiler_no_get');
+			if( $get === FALSE OR $get == NULL)
+			{
+				$output = $this->CI->lang->line('profiler_no_get');
+			}
 		}
 		else
 		{
@@ -363,33 +366,29 @@ class CI_Profiler extends CI_Loader {
 	{
 		$output = array();
 
-		if (count($_POST) == 0 AND $_FILES == 0)
+		if (!is_array($_POST)) return $output = $this->CI->lang->line('profiler_no_post');
+
+		if (count($_POST) == 0)
 		{
 			$output = $this->CI->lang->line('profiler_no_post');
 		}
 		else
 		{
-			if (count($_POST) > 0)
+			foreach ($_POST as $key => $val)
 			{
-				foreach ($_POST as $key => $val)
+				if ( ! is_numeric($key))
 				{
-					if ( ! is_numeric($key))
-					{
-						$key = "'".$key."'";
-					}
-
-					if (is_array($val))
-					{
-						$output['&#36;_POST['. $key .']'] = '<pre>'. htmlspecialchars(stripslashes(print_r($val, TRUE))) . '</pre>';
-					}
-					else
-					{
-						$output['&#36;_POST['. $key .']'] = htmlspecialchars(stripslashes($val));
-					}
+					$key = "'".$key."'";
+				}
+				if (is_array($val))
+				{
+					$output['&#36;_POST['. $key .']'] = '<pre>'. htmlspecialchars(stripslashes(print_r($val, TRUE))) . '</pre>';
+				}
+				else
+				{
+					$output['&#36;_POST['. $key .']'] = htmlspecialchars(stripslashes($val));
 				}
 			}
-			else
-				$output = $this->CI->lang->line('profiler_no_post');
 
 			if (count($_FILES) > 0)
 			foreach ($_FILES as $key => $val)
@@ -401,17 +400,15 @@ class CI_Profiler extends CI_Loader {
 
 				if (is_array($val) OR is_object($val))
 				{
-					$output['&#36;_POST[FILE'. $key .']'] =  '<pre>'.htmlspecialchars(stripslashes(print_r($val, TRUE))).'</pre>';
+					$output['&#36;_POST[FILE '. $key .']'] =  '<pre>'.htmlspecialchars(stripslashes(print_r($val, TRUE))).'</pre>';
 				}
 				else
-				
 				{
-					$output['&#36;_POST[FILE'. $key .']'] = htmlspecialchars(stripslashes($val));
+					$output['&#36;_POST[FILE '. $key .']'] = htmlspecialchars(stripslashes($val));
 				}
 			}
 
 		}
-
 		return $output;
 	}
 
@@ -571,6 +568,8 @@ class CI_Profiler extends CI_Loader {
 
 			$compiled_userdata = $this->CI->session->all_userdata();
 
+			if (!is_array($compiled_userdata)) return $output;
+
 			if (count($compiled_userdata))
 			{
 				foreach ($compiled_userdata as $key => $val)
@@ -620,7 +619,7 @@ class CI_Profiler extends CI_Loader {
 
 			if (is_array($val) || is_object($val))
 			{
-				$output[$key] = '<pre>' . print_r($val, true) . '</pre>';
+				$output[$key] = '<pre>' . htmlspecialchars(stripslashes(print_r($val, true))) . '</pre>';
 			}
 			else
 			{

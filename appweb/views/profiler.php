@@ -392,6 +392,10 @@ window.onload = function() {
 					<?php endforeach; ?>
 					</table>
 
+				<?php else: ?>
+					<table class="main" id="view_data_table">
+					<tr><td class="hilight"><?php echo 'no key array:' ?></td><td><?php echo print_r(var_dump($sections['view_data']),TRUE) ?></td></tr>
+					</table>
 				<?php endif; ?>
 			<?php endif; ?>
 
