@@ -208,9 +208,11 @@ class CI_Loader {
 			return FALSE;
 		}
 
-		if ( ! is_null($params) && ! is_array($params))
+		if ( $params !== NULL && ! is_array($params))
 		{
-			parse_str($params, $params);
+			$newparms = array();
+			parse_str($newparams, $params); // https://github.com/bcit-ci/CodeIgniter/issues/216
+			$params = $newparms;
 		}
 
 		$this->_ci_load_class($library, $params, $object_name);
