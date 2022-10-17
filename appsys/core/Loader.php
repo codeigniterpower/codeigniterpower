@@ -258,7 +258,7 @@ class CI_Loader {
 			$model = substr($model, $last_slash + 1);
 		}
 
-		if ($name == '')
+		if (empty($name))
 		{
 			$name = $model;
 		}
@@ -919,7 +919,7 @@ class CI_Loader {
 					// Before we deem this to be a duplicate request, let's see
 					// if a custom object name is being supplied.  If so, we'll
 					// return a new instance of the object
-					if ( ! is_null($object_name))
+					if ( $object_name !== NULL)
 					{
 						$CI =& get_instance();
 						if ( ! isset($CI->$object_name))
@@ -958,7 +958,7 @@ class CI_Loader {
 					// Before we deem this to be a duplicate request, let's see
 					// if a custom object name is being supplied.  If so, we'll
 					// return a new instance of the object
-					if ( ! is_null($object_name))
+					if ( $object_name !== NULL )
 					{
 						$CI =& get_instance();
 						if ( ! isset($CI->$object_name))
