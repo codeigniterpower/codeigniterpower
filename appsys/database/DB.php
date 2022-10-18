@@ -152,6 +152,10 @@ function &DB($params = '', $active_record_override = NULL)
 	{
 		$DB->query('SET SESSION sql_mode="STRICT_ALL_TABLES"');
 	}
+	else
+	{
+		$DB->query('SET SESSION sql_mode="NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER"'); // defaults to ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+	}
 
 	return $DB;
 }
