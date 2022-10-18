@@ -328,7 +328,7 @@ class CI_Loader {
 		$CI =& get_instance();
 
 		// Do we even need to load the database class?
-		if (class_exists('CI_DB') AND $return == FALSE AND $active_record == NULL AND isset($CI->db) AND is_object($CI->db))
+		if ($return == FALSE AND $active_record == NULL AND isset($CI->db) AND is_object($CI->db))
 		{
 			return FALSE;
 		}
