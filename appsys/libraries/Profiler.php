@@ -307,7 +307,7 @@ class CI_Profiler extends CI_Loader {
 			if (is_array($value))
 				$values[$key] = implode(',', $value);
 
-			if (is_null($value))
+			if ( $value !== NULL)
 				$values[$key] = 'NULL';
 		}
 

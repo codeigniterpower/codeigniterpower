@@ -422,7 +422,7 @@ class CI_DB_active_record extends CI_DB_driver {
 				$k .= ' IS NULL';
 			}
 
-			if ( ! is_null($v))
+			if ($v !== NULL )
 			{
 				if ($escape === TRUE)
 				{
@@ -957,7 +957,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->from($table);
 		}
 
-		if ( ! is_null($limit))
+		if ($limit !== NULL)
 		{
 			$this->limit($limit, $offset);
 		}
@@ -1019,12 +1019,12 @@ class CI_DB_active_record extends CI_DB_driver {
 			$this->from($table);
 		}
 
-		if ( ! is_null($where))
+		if ($where !== NULL)
 		{
 			$this->where($where);
 		}
 
-		if ( ! is_null($limit))
+		if ($limit !== NULL )
 		{
 			$this->limit($limit, $offset);
 		}
@@ -1049,7 +1049,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	public function insert_batch($table = '', $set = NULL)
 	{
-		if ( ! is_null($set))
+		if ( $set !== NULL)
 		{
 			$this->set_insert_batch($set);
 		}
@@ -1166,7 +1166,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	function insert($table = '', $set = NULL)
 	{
-		if ( ! is_null($set))
+		if ( $set !== NULL)
 		{
 			$this->set($set);
 		}
@@ -1213,7 +1213,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 */
 	public function replace($table = '', $set = NULL)
 	{
-		if ( ! is_null($set))
+		if ( $set !== NULL)
 		{
 			$this->set($set);
 		}
@@ -1264,7 +1264,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		// Combine any cached components with the current statements
 		$this->_merge_cache();
 
-		if ( ! is_null($set))
+		if ($set !== NULL)
 		{
 			$this->set($set);
 		}
@@ -1278,7 +1278,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			return FALSE;
 		}
 
-		if ($table == '')
+		if (empty(table))
 		{
 			if ( ! isset($this->ar_from[0]))
 			{
@@ -1292,12 +1292,12 @@ class CI_DB_active_record extends CI_DB_driver {
 			$table = $this->ar_from[0];
 		}
 
-		if ($where != NULL)
+		if ($where !== NULL)
 		{
 			$this->where($where);
 		}
 
-		if ($limit != NULL)
+		if ($limit !== NULL)
 		{
 			$this->limit($limit);
 		}
@@ -1336,7 +1336,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			return FALSE;
 		}
 
-		if ( ! is_null($set))
+		if ($set !== NULL)
 		{
 			$this->set_update_batch($set, $index);
 		}
@@ -1351,7 +1351,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			return FALSE;
 		}
 
-		if ($table == '')
+		if (empty($table))
 		{
 			if ( ! isset($this->ar_from[0]))
 			{

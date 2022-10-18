@@ -665,7 +665,7 @@ class CI_Session {
 	 */
 	function _set_cookie($cookie_data = NULL)
 	{
-		if (is_null($cookie_data))
+		if ($cookie_data !== NULL)
 		{
 			$cookie_data = $this->userdata;
 		}
