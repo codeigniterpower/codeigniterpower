@@ -177,8 +177,10 @@ class CI_Xmlrpc {
 
 	function timeout($seconds=5)
 	{
-		if ( $this->client !== NULL && is_int($seconds))
+		if ( $this->client !== NULL && is_numeric($seconds))
 		{
+			if($seconds < 0)
+				$seconds = $seconds * (-1);
 			$this->client->timeout = $seconds;
 		}
 	}
