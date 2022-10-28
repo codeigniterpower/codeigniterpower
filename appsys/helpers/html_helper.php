@@ -374,6 +374,59 @@ if ( ! function_exists('link_tag'))
 // ------------------------------------------------------------------------
 
 /**
+* Script_js
+*
+* Generates a script inclusion of a JavaScript code source
+*
+* @access    public
+* @param    mixed    javascript sources in array of string or just a string with the source code
+* @param    mixed    atributes or array of atributes, just added as numbered
+* @param    boolean    should be XHTML source of just HTML simple
+* @return    string
+*/
+
+if (! function_exists('script_js')) {
+    /**
+     * Script
+     *
+     * Generates tags of javascript embebed codes
+     *
+     * @param array|string $src       Script source or an array of scrits sources
+     */
+    function script_js($src = '', $atributes = '', $xhtml = FALSE)
+    {
+        $script   = '';
+
+        if ( ! is_array($src)) {
+            $src = ['src' => $src];
+        }
+
+        if ( ! is_array($src)) {
+            $satribs = $atributes;
+        }
+        else {
+            foreach ($atributes as $k => $v) {
+                // for attributes without values, like async or defer, use NULL.
+                $satribs .= $k . (null === $v ? ' ' : '="' . $v . '" ');
+            }
+        }
+
+
+        foreach ($src as $k => $v) {
+            $script .= '<script type="text/javascript"' . $satribs . '>' . PHP_EOL;
+            if ( $xtml ) $script .= '//<![CDATA[' . PHP_EOL;
+            $script .= $v . PHP_EOL;
+            if ( $xtml ) $script .= '//]]>' . PHP_EOL;
+            $script .= '</script>' . PHP_EOL;
+        }
+
+        return $script;
+    }
+}
+
+// ------------------------------------------------------------------------
+
+/**
 * Script
 *
 * Generates a script inclusion of a JavaScript file
