@@ -48,10 +48,4 @@ Please if u are a mocosoft dont mess up, and go off!
 * Lonnie Ezell (lonnieezell)for their https://github.com/lonnieezell/codeigniter-forensics to enhanced profiler (ee9eacc3a3868af0ab6e854a5a8e983a66553f70)
 * Brad Stinson (bradstinson) for their https://github.com/bradstinson/csv-import for CVS import (pending)
 
-Planned:
-
-* https://github.com/bradstinson/httpful to sustitute the cURL library implementation
-* https://github.com/chriskacerguis/codeigniter-restserver REST server for CI 2.X and not 3.X
-* https://github.com/chriskacerguis/codeigniter-restclient REST client for CI 2.X and not 3.X
-
 We try to keep (and also track) as many updates and changes as posibles from version 3 of codeigniter, 
