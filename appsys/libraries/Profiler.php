@@ -71,10 +71,7 @@ class CI_Profiler extends CI_Loader {
 		}
 
 		// Make sure the Console is loaded.
-		if (!class_exists('Console'))
-		{
-			$this->CI->load->library('Console');
-		}
+		$this->CI->load->library('console');
 
 		$this->set_sections($config);
 		// default all sections to display
@@ -535,9 +532,9 @@ class CI_Profiler extends CI_Loader {
 	{
 
 		// Make sure the Console is loaded.
-		$this->CI->load->library('Console');
+		$this->CI->load->library('console');
 
-		$logs = Console::get_logs();
+		$logs = $this->CI->console->get_logs();
 
 		if ($logs['console'])
 		{
