@@ -315,7 +315,7 @@ if (! function_exists('script_tag')) {
     {
         $script   = '<script';
         if (! is_array($src)) {
-            if (  strpos($src, 'src'); )
+            if (  strpos($src, 'src') )
                 
                 $src = ['src' => $src];
         }
