@@ -260,6 +260,83 @@ if ( ! function_exists('doctype'))
 
 // ------------------------------------------------------------------------
 
+if (! function_exists('script_js')) {
+    /**
+     * Script
+     *
+     * Generates tags of javascript embebed codes
+     *
+     * @param array|string $src       Script source or an array of scrits sources
+     * @param array|string $atributes    Sabtibutes or array of atributes taht will be put in all the tags
+     * @param bool $xhtml  will be XHTML or just simple HTML one to put CDATA inside
+     */
+    function script_js($src = '', $atributes = '', $xhtml = FALSE)
+    {
+        $script   = '';
+
+        if ( ! is_array($src)) {
+            $src = ['src' => $src];
+        }
+
+        if ( ! is_array($src)) {
+            $satribs = $atributes;
+        }
+        else {
+            foreach ($atributes as $k => $v) {
+                // for attributes without values, like async or defer, use NULL.
+                $satribs .= $k . (null === $v ? ' ' : '="' . $v . '" ');
+            }
+        }
+
+        foreach ($src as $k => $v) {
+            $script .= '<script type="text/javascript"' . $satribs . '>' . PHP_EOL;
+            if ( $xtml ) $script .= '//<![CDATA[' . PHP_EOL;
+            $script .= $v . PHP_EOL;
+            if ( $xtml ) $script .= '//]]>' . PHP_EOL;
+            $script .= '</script>' . PHP_EOL;
+        }
+
+        return $script;
+    }
+}
+
+// ------------------------------------------------------------------------
+
+if (! function_exists('script_tag')) {
+    /**
+     * Script
+     *
+     * Generates link to a JS file
+     *
+     * @param array|string $src       Script source or an array of attributes
+     * @param bool         $indexPage Should indexPage be added to the JS path
+     */
+    function script_tag($src = '', bool $indexPage = FALSE)
+    {
+        $script   = '<script';
+        if (! is_array($src)) {
+            if (  strpos($src, 'src'); )
+                
+                $src = ['src' => $src];
+        }
+
+        foreach ($src as $k => $v) {
+            if ($k === 'src' && ! preg_match('#^([a-z]+:)?//#i', $v)) {
+                if ($indexPage === true) {
+                    $script .= 'src="' . site_url($v) . '" ';
+                }
+            } else {
+                // for attributes without values, like async or defer, use NULL.
+                $script .= $k . (null === $v ? ' ' : '="' . $v . '" ');
+            }
+        }
+
+        return $script . 'type="text/javascript"></script>';
+    }
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('link_tag'))
 {
 	/**
