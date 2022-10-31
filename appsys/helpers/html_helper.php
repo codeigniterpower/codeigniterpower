@@ -507,7 +507,7 @@ if ( ! function_exists('div_tag'))
 		$srcs['content'] = $content;
 		}
 
-		if ( ! is_array($atributes)) {
+		if ( ! is_array($attributes)) {
 			$srcs['attributes'] = $attributes;
 		}
 		else {
