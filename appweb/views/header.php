@@ -2,7 +2,6 @@
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 $this->load->helper('html');
-$this->load->helper('uri');
 
 		$metaline1 = array('name' => 'description', 'content' => 'Codeigniter powered with steroids series 2.X');
 		$metaline2 = array('name' => 'keywords', 'content' => 'system, admin, catalogo, sistemas');
@@ -45,7 +44,7 @@ $this->load->helper('uri');
 	<body onload = 'checkAvailable()' > <!-- check browsers and denied the non-standard -->
 		<div id="menu" class="menu ">
 			<center>
-				<?php if( isset($menu) echo $menu.PHP_EOL ?>
+				<?php if( isset($menu)) echo $menu.PHP_EOL ?>
 			</center>
 		</div>
 	<center>
