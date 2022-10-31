@@ -267,10 +267,10 @@ if (! function_exists('script_js')) {
      * Generates tags of javascript embebed codes
      *
      * @param array|string $src       Script source or an array of scrits sources
-     * @param array|string $atributes    Sabtibutes or array of atributes taht will be put in all the tags
+     * @param array|string $attributes    Sabtibutes or array of atributes taht will be put in all the tags
      * @param bool $xhtml  will be XHTML or just simple HTML one to put CDATA inside
      */
-    function script_js($src = '', $atributes = '', $xhtml = FALSE)
+    function script_js($src = '', $attributes = '', $xhtml = FALSE)
     {
         $script   = '';
 
@@ -279,10 +279,10 @@ if (! function_exists('script_js')) {
         }
 
         if ( ! is_array($src)) {
-            $satribs = $atributes;
+            $satribs = $attributes;
         }
         else {
-            foreach ($atributes as $k => $v) {
+            foreach ($attributes as $k => $v) {
                 // for attributes without values, like async or defer, use NULL.
                 $satribs .= $k . (null === $v ? ' ' : '="' . $v . '" ');
             }
@@ -316,7 +316,6 @@ if (! function_exists('script_tag')) {
         $script   = '<script';
         if (! is_array($src)) {
             if (  strpos($src, 'src') )
-                
                 $src = ['src' => $src];
         }
 
