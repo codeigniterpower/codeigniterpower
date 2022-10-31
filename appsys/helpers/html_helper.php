@@ -557,5 +557,82 @@ if ( ! function_exists('nbs'))
 }
 
 
+// ------------------------------------------------------------------------
+
+/**
+ * div tag helper
+ *
+ * @param: String $content
+ * @param: String $attributes like class
+ * @return String
+ */
+if ( ! function_exists('div_tag'))
+{
+	function div_tag($content = '', $attributes = '')
+	{
+		$srcs = array();
+		$script = '';
+
+		if ( ! is_array($content)) {
+			if ( trim($content) == '' OR $content == NULL)
+				$open_only = TRUE;
+		$srcs['content'] = $content;
+		}
+
+		if ( ! is_array($atributes)) {
+			$srcs['attributes'] = $attributes;
+		}
+		else {
+			foreach ($atributes as $k => $v) {
+			// for attributes without values, like async or defer, use NULL.
+				$satribs .= $k . (null === $v ? ' ' : '="' . $v . '" ');
+			}
+			$srcs['attributes'] = $satribs;
+		}
+
+		$script .= '<div '.$srcs['attributes'].'>';
+		if ( $open_only !== FALSE ) {
+			$script .= $content;
+			$script .= '</div>';
+		}
+
+		return $script;
+	}
+
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * div tag helper for close tag
+ *
+ * @return String
+ */
+if ( ! function_exists('div_close'))
+{
+	function div_close()
+	{
+		return '</div>';
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * div tag helper for close tag
+ *
+ * @param: String $attributes like class
+ * @return String
+ */
+if ( ! function_exists('div_open'))
+{
+	function div_open($content = NULL, $attributes = '')
+	{
+		return div_tag($content = NULL, $attributes = '');
+	}
+
+}
+
+
 /* End of file html_helper.php */
 /* Location: ./system/helpers/html_helper.php */
