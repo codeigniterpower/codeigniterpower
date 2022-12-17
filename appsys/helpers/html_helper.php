@@ -500,11 +500,13 @@ if ( ! function_exists('div_tag'))
 	{
 		$srcs = array();
 		$script = '';
+		$open_only = FALSE;
 
-		if ( ! is_array($content)) {
-			if ( trim($content) == '' OR $content == NULL)
-				$open_only = TRUE;
-		$srcs['content'] = $content;
+		if ( trim($content) == '' OR $content == NULL)
+			$open_only = TRUE;
+
+		if ( ! is_array($content) ) {
+			$srcs['content'] = $content;
 		}
 
 		if ( ! is_array($attributes)) {
@@ -519,8 +521,8 @@ if ( ! function_exists('div_tag'))
 		}
 
 		$script .= '<div '.$srcs['attributes'].'>';
-		if ( $open_only !== FALSE ) {
-			$script .= $content;
+		if ( $open_only !== TRUE ) {
+			$script .= $srcs['content'];
 			$script .= '</div>';
 		}
 
@@ -552,9 +554,9 @@ if ( ! function_exists('div_open'))
 	 * @param: String $attributes like class
 	 * @return String
 	 */
-	function div_open($content = NULL, $attributes = '')
+	function div_open($attributes = '')
 	{
-		return div_tag($content = NULL, $attributes = '');
+		return div_tag('', $attributes);
 	}
 
 }
