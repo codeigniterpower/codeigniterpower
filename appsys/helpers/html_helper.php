@@ -502,8 +502,9 @@ if ( ! function_exists('div_tag'))
 		$script = '';
 		$open_only = FALSE;
 
-		if ( trim($content) == '' OR $content == NULL)
+		if ( trim($content) == '' OR $content == NULL) {
 			$open_only = TRUE;
+		}
 
 		if ( ! is_array($content) ) {
 			$srcs['content'] = $content;
