@@ -261,77 +261,134 @@ if ( ! function_exists('doctype'))
 // ------------------------------------------------------------------------
 
 if (! function_exists('script_js')) {
-    /**
-     * Script
-     *
-     * Generates tags of javascript embebed codes
-     *
-     * @param array|string $src       Script source or an array of scrits sources
-     * @param array|string $attributes    Sabtibutes or array of atributes taht will be put in all the tags
-     * @param bool $xhtml  will be XHTML or just simple HTML one to put CDATA inside
-     */
-    function script_js($src = '', $attributes = '', $xhtml = FALSE)
-    {
-        $script   = '';
+	/**
+	 * Script
+	 *
+	 * Generates tags of javascript embebed codes
+	 *
+	 * @param array|string $src       Script source or an array of scrits sources
+	 * @param array|string $attributes    Sabtibutes or array of atributes taht will be put in all the tags
+	 * @param bool $xhtml  will be XHTML or just simple HTML one to put CDATA inside
+	 */
+	function script_js($src = '', $attributes = '', $xhtml = FALSE)
+	{
+		$script   = '';
+		$satribs  = '';
+		$isjs = FALSE;
+		$open_only = FALSE;
 
-        if ( ! is_array($src)) {
-            $src = ['src' => $src];
-        }
+		if ( ! is_array($src)) {
+			if ( trim($src) == '' OR $src == NULL ) {
+				$open_only = TRUE;
+			}
+			$attributes['src'] = $src;
+		}
 
-        if ( ! is_array($src)) {
-            $satribs = $attributes;
-        }
-        else {
-            foreach ($attributes as $k => $v) {
-                // for attributes without values, like async or defer, use NULL.
-                $satribs .= $k . (null === $v ? ' ' : '="' . $v . '" ');
-            }
-        }
+		if ( ! is_array($src) AND ! is_array($attributes)) {
+			$isjs = strripos($attributes,'type');
+			$attributes['attributes'] = $attributes;
+		}
+		else {
+			if ( is_array($src) AND ! is_array($attributes)) {
+				foreach ($src as $k => $v) {
+					if ( strripos($k,'type') === TRUE AND strripos($v,'javascript') === TRUE ) {
+						$isjs = TRUE;
+					}
+					$satribs .= $k . (null === $v ? ' ' : '="' . $v . '" ');
+				}
+			}
+			else {
+				foreach ($attributes as $k => $v) {
+					if ( strripos($k,'type') === TRUE AND strripos($v,'javascript') === TRUE ) {
+						$isjs = TRUE;
+					}
+					$satribs .= $k . (null === $v ? ' ' : '="' . $v . '" ');
+				}
+			}
+		}
 
-        foreach ($src as $k => $v) {
-            $script .= '<script type="text/javascript"' . $satribs . '>' . PHP_EOL;
-            if ( $xtml ) $script .= '//<![CDATA[' . PHP_EOL;
-            $script .= $v . PHP_EOL;
-            if ( $xtml ) $script .= '//]]>' . PHP_EOL;
-            $script .= '</script>' . PHP_EOL;
-        }
+		if ( $isjs === FALSE ) {
+			$satribs .= ' type="text/javascript"';
+		}
 
-        return $script;
-    }
+		foreach ($src as $k => $v) {
+			$script .= '<script ' . $satribs . '>' . PHP_EOL;
+			if ( $xhtml ) $script .= '//<![CDATA[' . PHP_EOL;
+			$script .= $v . PHP_EOL;
+			if ( $xhtml ) $script .= '//]]>' . PHP_EOL;
+			if ( $open_only ) $script .= '</script>' . PHP_EOL;
+		}
+
+		return $script;
+	}
 }
 
 // ------------------------------------------------------------------------
 
 if (! function_exists('script_tag')) {
-    /**
-     * Script
-     *
-     * Generates link to a JS file
-     *
-     * @param array|string $src       Script source or an array of attributes
-     * @param bool         $indexPage Should indexPage be added to the JS path
-     */
-    function script_tag($src = '', bool $indexPage = FALSE)
-    {
-        $script   = '<script';
-        if (! is_array($src)) {
-            if (  strpos($src, 'src') )
-                $src = ['src' => $src];
-        }
+	/**
+	 * Script
+	 *
+	 * Generates link to a JS file
+	 *
+	 * @param array|string $src       Script source or an array of attributes
+	 * @param bool         $indexPage Should indexPage be added to the JS path
+	 */
+	function script_tag($src = '', bool $indexPage = false): string
+	{
+		$open_only = FALSE;
+		$contenido = '';
 
-        foreach ($src as $k => $v) {
-            if ($k === 'src' && ! preg_match('#^([a-z]+:)?//#i', $v)) {
-                if ($indexPage === true) {
-                    $script .= 'src="' . site_url($v) . '" ';
-                }
-            } else {
-                // for attributes without values, like async or defer, use NULL.
-                $script .= $k . (null === $v ? ' ' : '="' . $v . '" ');
-            }
-        }
+		$script   = '<script ';
+		if (! is_array($src)) {
+			if ($indexPage == TRUE AND trim($src) != '') {
+				$src = site_url();
+			}
+			if ( trim($src) == '' OR $content == NULL) {
+				$open_only = TRUE;
+			}
+			if ( strpos($src, 'src') !== FALSE ) {
+				$src = array('src' => $src);
+			}
+		}
+		foreach ($src as $k => $v) {
+			if ($k === 'src' AND $indexPage === true) {
+				$src[$k] = site_url($v);
+			}
+			if ( ! array_key_exists('type', $src) ) {
+				$src['type'] = 'text/javascript';
+			}
+			if ( $k === 'content' ) {
+				$contenido = $v;
+				continue;
+			}
+			$script .= $k . (null === $v ? ' ' : '="' . $v . '" ');
+		}
 
-        return $script . 'type="text/javascript"></script>';
-    }
+		$script .= '>';
+
+ 		if ( $open_only !== TRUE ) {
+			$script .= $contenido;
+			$script .= '</script>';
+		}
+		
+		return $script;
+   }
+}
+
+// ---------------------------------------------------------------------
+
+if ( ! function_exists('script_close'))
+{
+	/*
+	 * script tag helper for close tag
+	 * @name: script_close
+	 * @return String
+	 */
+	function script_close()
+	{
+		return '</script>';
+	}
 }
 
 // ------------------------------------------------------------------------
@@ -502,11 +559,15 @@ if ( ! function_exists('div_tag'))
 		$script = '';
 		$open_only = FALSE;
 
-		if ( trim($content) == '' OR $content == NULL)
-			$open_only = TRUE;
-
 		if ( ! is_array($content) ) {
+			if ( trim($content) == '' OR $content == NULL) {
+				$open_only = TRUE;
+			}
 			$srcs['content'] = $content;
+		}
+
+		if ( trim($srcs['content']) == '') {
+			$open_only = TRUE;
 		}
 
 		if ( ! is_array($attributes)) {
