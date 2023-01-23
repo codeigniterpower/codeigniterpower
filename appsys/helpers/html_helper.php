@@ -334,7 +334,7 @@ if (! function_exists('script_tag')) {
 	 * @param array|string $src       Script source or an array of attributes
 	 * @param bool         $indexPage Should indexPage be added to the JS path
 	 */
-	function script_tag($src = NULL, bool $indexPage = false): string
+	function script_tag($src = NULL, $indexPage = false)
 	{
 		if( $src === NULL ) $src = '';
 		
