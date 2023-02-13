@@ -353,18 +353,20 @@ if (! function_exists('script_tag')) {
 				$src = array('src' => $src);
 			}
 		}
-		foreach ($src as $k => $v) {
-			if ($k === 'src' AND $indexPage === true) {
-				$src[$k] = site_url($v);
+		if( $open_only !== TRUE ) {
+			foreach ($src as $k => $v) {
+				if ($k === 'src' AND $indexPage === true) {
+					$src[$k] = site_url($v);
+				}
+				if ( ! array_key_exists('type', $src) ) {
+					$src['type'] = 'text/javascript';
+				}
+				if ( $k === 'content' ) {
+					$contenido = $v;
+					continue;
+				}
+				$script .= $k . (null === $v ? ' ' : '="' . $v . '" ');
 			}
-			if ( ! array_key_exists('type', $src) ) {
-				$src['type'] = 'text/javascript';
-			}
-			if ( $k === 'content' ) {
-				$contenido = $v;
-				continue;
-			}
-			$script .= $k . (null === $v ? ' ' : '="' . $v . '" ');
 		}
 
 		$script .= '>';
