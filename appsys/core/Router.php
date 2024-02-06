@@ -91,7 +91,7 @@ class CI_Router {
 	 *
 	 * @var	string
 	 */
-	public $directory == NULL;
+	public $directory = NULL;
 
 	/**
 	 * Default controller (and method if specific)
