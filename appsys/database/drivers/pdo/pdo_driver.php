@@ -65,9 +65,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 *
 	 * @var	array
 	 */
-	public $options = array(
-		PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-	);
+	public $options = array();
 
 	// --------------------------------------------------------------------
 
@@ -82,6 +80,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	public function __construct($params)
 	{
 		parent::__construct($params);
+
+		if(ENVIRONMENT !== 'production' && empty($options)) $this->$options = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
 
 		if (preg_match('/([^:]+):/', $this->dsn, $match) && count($match) === 2)
 		{
