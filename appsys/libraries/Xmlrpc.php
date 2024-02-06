@@ -703,6 +703,10 @@ class XML_RPC_Message extends CI_Xmlrpc
 		//-------------------------------------
 
 		$parser = xml_parser_create($this->xmlrpc_defencoding);
+		if (version_compare(PHP_VERSION, '7.2.0') >= 0 && is_object($parser))
+			$parser = spl_object_id($parser);
+		else
+			$parser = (string) $parser;
 
 		$this->xh[$parser]					= array();
 		$this->xh[$parser]['isf']			= 0;
@@ -847,6 +851,11 @@ class XML_RPC_Message extends CI_Xmlrpc
 
 	function open_tag($the_parser, $name, $attrs)
 	{
+		if (version_compare(PHP_VERSION, '7.2.0') >= 0 && is_object($the_parser))
+			$the_parser = spl_object_id($the_parser);
+		else
+			$the_parser = (string) $the_parser;
+
 		// If invalid nesting, then return
 		if ($this->xh[$the_parser]['isf'] > 1) return;
 
@@ -949,6 +958,11 @@ class XML_RPC_Message extends CI_Xmlrpc
 
 	function closing_tag($the_parser, $name)
 	{
+		if (version_compare(PHP_VERSION, '7.2.0') >= 0 && is_object($the_parser))
+			$the_parser = spl_object_id($the_parser);
+		else
+			$the_parser = (string) $the_parser;
+
 		if ($this->xh[$the_parser]['isf'] > 1) return;
 
 		// Remove current element from stack and set variable
@@ -1093,6 +1107,11 @@ class XML_RPC_Message extends CI_Xmlrpc
 
 	function character_data($the_parser, $data)
 	{
+		if (version_compare(PHP_VERSION, '7.2.0') >= 0 && is_object($the_parser))
+			$the_parser = spl_object_id($the_parser);
+		else
+			$the_parser = (string) $the_parser;
+
 		if ($this->xh[$the_parser]['isf'] > 1) return; // XML Fault found already
 
 		// If a value has not been found
