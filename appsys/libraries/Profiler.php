@@ -30,6 +30,7 @@
  * @author		ExpressionEngine Dev Team
  * @link		https://codeigniterpower.github.io/codeigniter-profiler/
  */
+#[AllowDynamicProperties]
 class CI_Profiler extends CI_Loader {
 
 	protected $CI;

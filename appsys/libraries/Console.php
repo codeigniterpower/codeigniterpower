@@ -17,6 +17,7 @@
 	License:
 		MIT 
 */
+#[AllowDynamicProperties]
 class Console {
 
 	/*

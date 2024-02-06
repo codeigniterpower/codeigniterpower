@@ -13,6 +13,7 @@
 * @license http://philsturgeon.co.uk/code/dbad-license
 * @link http://getsparks.org/packages/restclient/show
 */
+#[AllowDynamicProperties]
 class REST
 {
 	protected $_ci;
