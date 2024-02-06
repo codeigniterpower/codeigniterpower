@@ -375,6 +375,8 @@ if ( ! function_exists('convert_accented_characters'))
 			include(APPPATH.'config/foreign_chars.php');
 		}
 
+		$str = (gettype($str) === 'NULL') ? '' : $str;
+
 		if ( ! isset($foreign_characters))
 		{
 			return $str;
