@@ -234,7 +234,10 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 
 		$parser = xml_parser_create($this->xmlrpc_defencoding);
 		$parser_object = new XML_RPC_Message('filler');
-		$pname = (string) $parser;
+		if (version_compare(PHP_VERSION, '7.2.0') >= 0)
+			$pname = spl_object_id($parser);
+		else
+			$pname = (string) $parser;
 
 		$parser_object->xh[$pname] = array(
 			'isf' => 0,
