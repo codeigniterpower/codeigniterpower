@@ -214,6 +214,10 @@ class CI_Cache_redis extends CI_Driver
 			$this->_redis->{static::$_sRemove_name}('_ci_redis_serialized', $id);
 		}
 
+		if (is_numeric($ttl)) {
+			$this->_redis->expireAt($id, time() + $ttl);
+		}
+
 		return $this->_redis->set($id, $data, $ttl);
 	}
 
