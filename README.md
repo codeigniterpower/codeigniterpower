@@ -10,6 +10,7 @@ For that, have some additions in the pgsql and odbc drivers, as stetics ajust on
 
 ## FEATURES
 
+* Support: works in php 8, php 7 and php 5
 * Core: autodetection of localhost security denied and locale settings to GMT if not set datetime zone
 * Bootstrap: css autoiniciado en cada tag html sin necesidad de usar clases especificas
 * Helpers: el tag de tabla y de select adiciona datatables y inputsearch sin usar jquery
@@ -36,6 +37,12 @@ In many places old versions of php are used but with their security patches,
 So that updating is an excuse to boost scheduled obsolescence.
 
 NOTE: our date time picker are the most older due renders! faster! in older browsers!
+
+## quick start
+
+* the application directory was changed to appweb
+* the system directory was changed to appsys
+* all the rest is the same as codeigniter v2 with many updates
 
 # Contact, contributions and thanks
 
