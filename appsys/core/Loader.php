@@ -226,24 +226,23 @@ class CI_Loader {
 	 *
 	 * This function lets users load and instantiate models.
 	 *
-	 * @param	string	the name of the class
-	 * @param	string	name for the model
-	 * @param	bool	database connection
-	 * @return	void
+	 * @param	mixed	$model		Model name
+	 * @param	string	$name		An optional object name to assign to
+	 * @param	bool	$db_conn	An optional database connection configuration to initialize
+	 * @return	object
 	 */
 	public function model($model, $name = '', $db_conn = FALSE)
 	{
-		if (is_array($model))
+		if (empty($model))
+		{
+			return;
+		}
+		elseif (is_array($model))
 		{
 			foreach ($model as $babe)
 			{
 				$this->model($babe);
 			}
-			return;
-		}
-
-		if ($model == '')
-		{
 			return;
 		}
 
@@ -259,9 +258,9 @@ class CI_Loader {
 			$model = substr($model, $last_slash + 1);
 		}
 
-		if (empty($name))
+		if (empty(trim($name)))
 		{
-			$name = $model;
+			$name = strtolower($model);
 		}
 
 		if (in_array($name, $this->_ci_models, TRUE))
@@ -275,12 +274,20 @@ class CI_Loader {
 			show_error('The model name you are loading is the name of a resource that is already being used: '.$name);
 		}
 
-		$model = strtolower($model);
-
 		foreach ($this->_ci_model_paths as $mod_path)
 		{
 			if ( ! file_exists($mod_path.'models/'.$path.$model.'.php'))
 			{
+				continue;
+			}
+			if ( ! file_exists($mod_path.'models/'.$path.strtolower($model).'.php'))
+			{
+				$model = strtolower($model);
+				continue;
+			}
+			elseif ( ! file_exists($mod_path.'models/'.$path.ucfirst($model).'.php'))
+			{
+				$model = ucfirst($model);
 				continue;
 			}
 
