@@ -612,7 +612,7 @@ class CI_Security {
 		{
 			$rand = $this->get_random_bytes(16);
 			$this->_xss_hash = ($rand === FALSE)
-				? md5(uniqid(mt_rand(), TRUE))
+				? md5(uniqid(is_php('8.3') ? mt_rand((mt_getrandmax()*-1),mt_getrandmax()) : random_int(PHP_INT_MIN, PHP_INT_MAX), TRUE))
 				: bin2hex($rand);
 		}
 
@@ -1101,7 +1101,7 @@ class CI_Security {
 
 			$rand = $this->get_random_bytes(16);
 			$this->_csrf_hash = ($rand === FALSE)
-				? md5(uniqid(mt_rand(), TRUE))
+				? md5(uniqid(is_php('8.3') ? mt_rand((mt_getrandmax()*-1),mt_getrandmax()) : random_int(PHP_INT_MIN, PHP_INT_MAX), TRUE))
 				: bin2hex($rand);
 		}
 

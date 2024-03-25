@@ -110,7 +110,7 @@ if ( ! function_exists('form_open'))
 			}
 			else
 			{
-				$noise = mt_rand(-128, 127);
+				$noise = php_rand(-128, 127);
 			}
 
 			// Prepend if $noise has a negative value, append if positive, do nothing for zero

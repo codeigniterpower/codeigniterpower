@@ -207,7 +207,7 @@ if ( ! function_exists('random_string'))
 		switch ($type)
 		{
 			case 'basic':
-				return mt_rand();
+				return php_rand();
 			case 'alnum':
 			case 'numeric':
 			case 'nozero':
@@ -230,10 +230,10 @@ if ( ! function_exists('random_string'))
 				return substr(str_shuffle(str_repeat($pool, ceil($len / strlen($pool)))), 0, $len);
 			case 'unique': // todo: remove in 3.1+
 			case 'md5':
-				return md5(uniqid(mt_rand()));
+				return md5(uniqid(php_rand()));
 			case 'encrypt': // todo: remove in 3.1+
 			case 'sha1':
-				return sha1(uniqid(mt_rand(), TRUE));
+				return sha1(uniqid(php_rand(), TRUE));
 		}
 	}
 }
