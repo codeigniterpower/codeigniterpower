@@ -58,6 +58,38 @@ if ( ! function_exists('is_php'))
 // ------------------------------------------------------------------------
 
 /**
+ * implements internally the rand specific function based on PHP version, used internally
+ *
+ * @access	public
+ * @param	int or 0
+ * @param	int or mt_getrandmax()
+ * @return	int
+ */
+if ( ! function_exists('php_rand'))
+{
+	/**
+	 * implements internally the rand specific function based on PHP version, used internally
+	 *
+	 * @param	int or 0
+	 * @param	int or mt_getrandmax()
+	 * @return	int
+	 */
+	function php_rand($min = NULL, $max = NULL)
+	{
+		if(!is_int($min) $min = 0;
+		if(!is_int($max) $max = mt_getrandmax();
+
+		if( is_php('7.1.99') ) return random_int($min, $max);
+
+		if (!function_exists('mcrypt_create_iv')) trigger_error( 'mcrypt must be loaded for random_int to work', E_USER_WARNING );
+
+		return mt_rand($min, $max);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+/**
  * Tests for file writability
  *
  * is_writable() returns TRUE on Windows servers when you really can't write to

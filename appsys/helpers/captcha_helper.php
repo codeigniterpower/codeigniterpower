@@ -187,7 +187,7 @@ if ( ! function_exists('create_captcha'))
 		{
 			for ($i = 0; $i < $word_length; $i++)
 			{
-				$word .= $pool[mt_rand(0, $rand_max)];
+				$word .= $pool[php_rand(0, $rand_max)];
 			}
 		}
 		elseif ( ! is_string($word))
