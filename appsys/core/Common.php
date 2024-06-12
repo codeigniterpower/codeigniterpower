@@ -85,8 +85,8 @@ if ( ! function_exists('php_rand'))
 	 */
 	function php_rand($min = NULL, $max = NULL)
 	{
-		if(!is_int($min) $min = 0;
-		if(!is_int($max) $max = mt_getrandmax();
+		if(!is_int($min)) $min = 0;
+		if(!is_int($max)) $max = mt_getrandmax();
 
 		if( is_php('7.1.99') ) return random_int($min, $max);
 
