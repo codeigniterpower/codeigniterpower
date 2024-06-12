@@ -256,12 +256,17 @@
 	// Load the local application controller
 	// Note: The Router class automatically validates the controller path using the router->_validate_request().
 	// If this include fails it means that the default controller in the Routes.php file is not resolving to something valid.
-	if ( ! file_exists(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php'))
+	$class  = $RTR->fetch_class();
+	if ( ! file_exists(APPPATH.'controllers/'.$RTR->fetch_directory().$class.'.php'))
 	{
-		show_error('Unable to load your default controller. Please make sure the controller specified in your Routes.php file is valid.');
+		$class  = ucfirst($RTR->fetch_class());
+		if ( ! file_exists(APPPATH.'controllers/'.$RTR->fetch_directory().$class.'.php'))
+		{
+			show_error('Unable to load your default controller. Please make sure the controller specified in your Routes.php file is valid.');
+		}
 	}
 
-	include(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php');
+	include(APPPATH.'controllers/'.$RTR->fetch_directory().$class.'.php');
 
 	// Set a mark point for benchmarking
 	$BM->mark('loading_time:_base_classes_end');
@@ -275,7 +280,6 @@
  *  loader class can be called via the URI, nor can
  *  controller functions that begin with an underscore
  */
-	$class  = $RTR->fetch_class();
 	$method = $RTR->fetch_method();
 
 	if ( ! class_exists($class)
@@ -286,15 +290,16 @@
 		if ( ! empty($RTR->routes['404_override']))
 		{
 			$x = explode('/', $RTR->routes['404_override']);
-			$class = $x[0];
+			$class = ucfirst($x[0]);
 			$method = (isset($x[1]) ? $x[1] : 'index');
-			if ( ! class_exists($class))
+			if ( ! class_exists(ucfirst($class)))
 			{
 				if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
 				{
-					show_404("{$class}/{$method}");
+					$class = strtolower($class);
+					if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
+						show_404("{$class}/{$method}");
 				}
-
 				include_once(APPPATH.'controllers/'.$class.'.php');
 			}
 		}
@@ -319,7 +324,8 @@
 	// Mark a start point so we can benchmark the controller
 	$BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_start');
 
-	$CI = new $class();
+	$classnm = ucfirst($class);
+	$CI = new $classnm();
 
 /*
  * ------------------------------------------------------
@@ -348,18 +354,21 @@
 			if ( ! empty($RTR->routes['404_override']))
 			{
 				$x = explode('/', $RTR->routes['404_override']);
-				$class = $x[0];
+				$class = ucfirst($x[0]);
 				$method = (isset($x[1]) ? $x[1] : 'index');
 				if ( ! class_exists($class))
 				{
 					if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
 					{
-						show_404("{$class}/{$method}");
+						$class = strtolower($class);
+						if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
+							show_404("{$class}/{$method}");
 					}
 
 					include_once(APPPATH.'controllers/'.$class.'.php');
 					unset($CI);
-					$CI = new $class();
+					$classnm = ucfirst($class);
+					$CI = new $classnm();
 				}
 			}
 			else

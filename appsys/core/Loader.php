@@ -255,7 +255,7 @@ class CI_Loader {
 			$path = substr($model, 0, $last_slash + 1);
 
 			// And the model name behind it
-			$model = substr($model, $last_slash + 1);
+			$model = substr($model, $last_slash);
 		}
 
 		if (empty(trim($name)))
@@ -278,17 +278,15 @@ class CI_Loader {
 		{
 			if ( ! file_exists($mod_path.'models/'.$path.$model.'.php'))
 			{
-				continue;
-			}
-			if ( ! file_exists($mod_path.'models/'.$path.strtolower($model).'.php'))
-			{
 				$model = strtolower($model);
-				continue;
-			}
-			elseif ( ! file_exists($mod_path.'models/'.$path.ucfirst($model).'.php'))
-			{
-				$model = ucfirst($model);
-				continue;
+				if ( ! file_exists($mod_path.'models/'.$path.$model.'.php'))
+				{
+					$model = ucfirst($model);
+					if ( ! file_exists($mod_path.'models/'.$path.ucfirst($model).'.php'))
+					{
+						continue;
+					}
+				}
 			}
 
 			if ($db_conn !== FALSE AND ! class_exists('CI_DB'))
@@ -309,10 +307,8 @@ class CI_Loader {
 			require_once($mod_path.'models/'.$path.$model.'.php');
 
 			$model = ucfirst($model);
-
 			$CI->$name = new $model();
-
-			$this->_ci_models[] = $name;
+			$this->_ci_models[] = strtolower($name);
 			return;
 		}
 
