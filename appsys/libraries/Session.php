@@ -328,7 +328,7 @@ class CI_Session {
 		$sessid = '';
 		while (strlen($sessid) < 32)
 		{
-			$sessid .= php_rand(0, mt_getrandmax());
+			$sessid .= is_php('8.3') ? mt_rand(0,mt_getrandmax()) : random_int(0, PHP_INT_MAX);
 		}
 
 		// To make the session ID even more secure we'll combine it with the user's IP
@@ -375,7 +375,7 @@ class CI_Session {
 		$new_sessid = '';
 		while (strlen($new_sessid) < 32)
 		{
-			$new_sessid .= php_rand(0, mt_getrandmax());
+			$new_sessid .= is_php('8.3') ? mt_rand(0,mt_getrandmax()) : random_int(0, PHP_INT_MAX);
 		}
 
 		// To make the session ID even more secure we'll combine it with the user's IP

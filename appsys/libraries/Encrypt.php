@@ -247,7 +247,7 @@ class CI_Encrypt {
 		$rand = '';
 		while (strlen($rand) < 32)
 		{
-			$rand .= php_rand(0, mt_getrandmax());
+			$rand .= is_php('8.3') ? mt_rand(0,mt_getrandmax()) : random_int(0, PHP_INT_MAX);
 		}
 
 		$rand = $this->hash($rand);

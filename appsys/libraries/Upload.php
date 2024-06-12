@@ -397,7 +397,7 @@ class CI_Upload {
 		if ($this->encrypt_name == TRUE)
 		{
 			mt_srand();
-			$filename = md5(uniqid(php_rand())).$this->file_ext;
+			$filename = md5(uniqid( is_php('8.3') ? mt_rand((mt_getrandmax()*-1),mt_getrandmax()) : random_int(PHP_INT_MIN, PHP_INT_MAX) )).$this->file_ext;
 		}
 
 		if ( ! file_exists($path.$filename)) // if ($this->overwrite === TRUE OR ! file_exists($path.$filename)) // permite que asigne nombre nuevo no importa si esta permitido

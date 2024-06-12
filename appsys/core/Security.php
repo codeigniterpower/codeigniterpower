@@ -488,7 +488,7 @@ class CI_Security {
 		if ($this->_xss_hash == '')
 		{
 			mt_srand();
-			$this->_xss_hash = md5(time() + php_rand(0, 1999999999));
+			$this->_xss_hash = md5(time() + is_php('8.3') ? mt_rand(0,1999999999) : random_int(0,1999999999) );
 		}
 
 		return $this->_xss_hash;
