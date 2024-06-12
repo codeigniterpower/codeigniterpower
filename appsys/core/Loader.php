@@ -241,7 +241,7 @@ class CI_Loader {
 		{
 			foreach ($model as $babe)
 			{
-				$this->model($babe);
+				is_int($key) ? $this->model($value, '', $db_conn) : $this->model($key, $value, $db_conn);
 			}
 			return;
 		}
